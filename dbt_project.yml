@@ -24,3 +24,7 @@ models:
     materialized: table
     staging:
       materialized: view
+
+data_tests:
+  +store_failures: true
+  +store_failures_as: view

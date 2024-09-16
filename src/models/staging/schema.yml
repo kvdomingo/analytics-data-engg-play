@@ -4,29 +4,37 @@ models:
   - name: stg_afg
     columns:
       - name: school_id_giga
-        tests:
+        data_tests:
           - unique
           - not_null
 
       - name: school_id_govt
-        tests:
+        data_tests:
           - unique
           - not_null
 
       - name: school_name
-        tests:
+        data_tests:
           - not_null
 
       - name: latitude
-        tests:
+        data_tests:
           - not_null
+          - dbt_utils.accepted_range:
+              min_value: -90
+              max_value: 90
+              inclusive: true
 
       - name: longitude
-        tests:
+        data_tests:
           - not_null
+          - dbt_utils.accepted_range:
+              min_value: -180
+              max_value: 180
+              inclusive: true
 
       - name: education_level
-        tests:
+        data_tests:
           - accepted_values:
               values:
                 - Pre-Primary

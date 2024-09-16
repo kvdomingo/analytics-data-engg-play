@@ -1,1 +1,2 @@
-SELECT * FROM {{ ref('stg_afg') }}
+SELECT *
+FROM {{ ref('stg_afg') }}
