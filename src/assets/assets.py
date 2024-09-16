@@ -20,7 +20,7 @@ def raw_afg(context: AssetExecutionContext, duckdb: DuckDBResource) -> pl.DataFr
         df = conn.execute(
             f"""
             SELECT *
-            FROM sniff_csv(
+            FROM read_csv(
                 '{str(settings.BASE_DIR / "data/src/master/AFG_school_geolocation_coverage_master.csv")}',
                 all_varchar = true
             )
