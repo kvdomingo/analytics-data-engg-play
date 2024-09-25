@@ -20,6 +20,7 @@ dagster-postgres = "^0.24.7"
 duckdb = "^1.1.0"
 dagster-duckdb-polars = "^0.24.7"
 dbt-duckdb = "^1.8.3"
+dagster-airbyte = "^0.24.8"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.6.5"
