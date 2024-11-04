@@ -8,11 +8,6 @@ from pydantic_settings import BaseSettings
 class Settings(BaseSettings):
     BASE_DIR: Path = Path(__file__).parent.parent
 
-    AIRBYTE_HOST: str
-    AIRBYTE_PORT: int
-    AIRBYTE_USERNAME: str
-    AIRBYTE_PASSWORD: str
-
     @computed_field
     @property
     def DUCKDB_DATABASE(self) -> str:
