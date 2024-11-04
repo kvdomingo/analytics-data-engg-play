@@ -1,36 +1,43 @@
-import polars as pl
-from dagster import AssetExecutionContext, asset
-from dagster_dbt import DbtCliResource, dbt_assets
-from dagster_duckdb import DuckDBResource
-from duckdb.duckdb import DuckDBPyConnection
+import io
 
-from src.dbt_project import dbt_project
+import dagster as dg
+import polars as pl
+from dagster import MetadataValue
+from httpx import AsyncClient
+
+from src.partitions import daily_partitions_def
 from src.resources import IOManager
 from src.settings import settings
 
 
-@asset(
-    compute_kind="duckdb",
-    io_manager_key=IOManager.DUCKDB.value,
-    metadata={"schema": "ae_de_play"},
+@dg.asset(
+    partitions_def=daily_partitions_def,
+    io_manager_key=IOManager.S3.value,
+    kinds={"s3"},
 )
-def raw_afg(context: AssetExecutionContext, duckdb: DuckDBResource) -> pl.DataFrame:
-    with duckdb.get_connection() as conn:
-        conn: DuckDBPyConnection
-        df = conn.execute(
-            f"""
-            SELECT *
-            FROM read_csv(
-                '{str(settings.BASE_DIR / "data/src/master/AFG_school_geolocation_coverage_master.csv")}',
-                all_varchar = true
-            )
-            """,
-        ).pl()
+async def raw_fire(context: dg.AssetExecutionContext) -> str:
+    async with AsyncClient(base_url=settings.NASA_FIRMS_BASE_URL) as client:
+        res = await client.get(
+            f"/api/country/csv/{settings.NASA_FIRMS_MAP_KEY}/VIIRS_SNPP_NRT/PHL/1/{context.partition_key}"
+        )
+        res.raise_for_status()
+        text = res.text
 
-    context.add_output_metadata({"row_count": len(df)})
+    context.add_output_metadata({"size": MetadataValue.int(len(text))})
+    return text
+
+
+@dg.asset(
+    partitions_def=daily_partitions_def,
+    io_manager_key=IOManager.DELTALAKE.value,
+    metadata={
+        "partition_expr": "measurement_date",
+    },
+    kinds={"s3", "polars", "deltalake"},
+)
+def raw_fire_delta(context: dg.AssetExecutionContext, raw_fire: str) -> pl.DataFrame:
+    with io.StringIO(raw_fire) as buf:
+        df = pl.read_csv(buf)
+
+    df = df.with_columns(measurement_date=pl.lit(context.partition_key).cast(pl.Date()))
     return df
-
-
-@dbt_assets(manifest=dbt_project.manifest_path)
-def afg_dbt_assets(context: AssetExecutionContext, dbt: DbtCliResource):
-    yield from dbt.cli(["build"], context=context).stream()

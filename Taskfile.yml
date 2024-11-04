@@ -3,6 +3,9 @@ version: '3'
 env:
   NAME: ae-de-play
 
+dotenv:
+  - .env
+
 tasks:
   default:
     cmd:
