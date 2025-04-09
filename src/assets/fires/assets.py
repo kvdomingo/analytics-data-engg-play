@@ -15,7 +15,7 @@ from src.settings import settings
     io_manager_key=IOManager.S3.value,
     kinds={"s3"},
 )
-async def raw_fire(context: dg.AssetExecutionContext) -> str:
+async def fires__raw(context: dg.AssetExecutionContext) -> str:
     async with AsyncClient(base_url=settings.NASA_FIRMS_BASE_URL) as client:
         res = await client.get(
             f"/api/country/csv/{settings.NASA_FIRMS_MAP_KEY}/VIIRS_SNPP_NRT/PHL/1/{context.partition_key}"
@@ -35,8 +35,11 @@ async def raw_fire(context: dg.AssetExecutionContext) -> str:
     },
     kinds={"s3", "polars", "deltalake"},
 )
-def raw_fire_delta(context: dg.AssetExecutionContext, raw_fire: str) -> pl.DataFrame:
-    with io.StringIO(raw_fire) as buf:
+def fires__raw_delta(
+    context: dg.AssetExecutionContext,
+    fires__raw: str,
+) -> pl.DataFrame:
+    with io.StringIO(fires__raw) as buf:
         df = pl.read_csv(buf)
 
     df = df.with_columns(measurement_date=pl.lit(context.partition_key).cast(pl.Date()))

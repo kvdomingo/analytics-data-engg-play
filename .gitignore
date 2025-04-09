@@ -164,6 +164,7 @@ cython_debug/
 data/
 
 # Dagster
+artifacts/
 history/
 logs/
 schedules/
