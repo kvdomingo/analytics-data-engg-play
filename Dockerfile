@@ -3,17 +3,19 @@ FROM python:3.12-bookworm
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
-ENV POETRY_VERSION=2.0.1
-ENV POETRY_VIRTUALENVS_CREATE=1
-ENV POETRY_VIRTUALENVS_IN_PROJECT=1
-ENV POETRY_HOME=/opt/poetry
-ENV PATH="${POETRY_HOME}/bin:${PATH}"
+ENV UV_VERSION=0.6.13
+ENV PATH="/root/.local/bin:/root/.cargo/bin:${PATH}"
 
-WORKDIR /app
+WORKDIR /tmp
 
 SHELL [ "/bin/bash", "-euxo", "pipefail", "-c" ]
+RUN apt-get install -y --no-install-recommends curl ca-certificates
 
-RUN apt-get install -y --no-install-recommends curl && \
-    curl -sSL https://install.python-poetry.org | python -
+ADD https://astral.sh/uv/${UV_VERSION}/install.sh install-uv.sh
+
+SHELL [ "/bin/sh", "-eu", "-c" ]
+RUN chmod +x /tmp/install-uv.sh && /tmp/install-uv.sh
+
+WORKDIR /app
 
 ENTRYPOINT [ "/bin/bash", "-euxo", "pipefail", "-c" ]
