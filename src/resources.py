@@ -35,7 +35,16 @@ RESOURCES = {
     Resource.DUCKDB.value: DuckDBResource(database=settings.DUCKDB_DATABASE),
     Resource.DBT.value: DbtCliResource(project_dir=settings.BASE_DIR),
     Resource.S3.value: _s3_resource,
-    IOManager.DUCKDB.value: DuckDBPolarsIOManager(database=settings.DUCKDB_DATABASE),
+    IOManager.DUCKDB.value: DuckDBPolarsIOManager(
+        connection_config={
+            "s3_endpoint": settings.MINIO_ENDPOINT,
+            "s3_access_key_id": settings.MINIO_ACCESS_KEY,
+            "s3_secret_access_key": settings.MINIO_SECRET_KEY,
+            "s3_region": settings.MINIO_REGION,
+            "arrow_large_buffer_size": True,
+        },
+        database=f"{settings.MINIO_BUCKET}/duck.db",
+    ),
     IOManager.DELTALAKE.value: DeltaLakePolarsIOManager(
         root_uri=f"s3a://{settings.MINIO_BUCKET}",
         mode=WriteMode.append,

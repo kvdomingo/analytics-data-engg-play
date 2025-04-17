@@ -1,7 +1,7 @@
 import dagster as dg
 import polars as pl
 from botocore.response import StreamingBody
-from dagster import MetadataValue, TableRecord
+from dagster import MetadataValue, TableColumn, TableRecord, TableSchema
 from dagster_aws.s3 import S3Resource
 from mypy_boto3_s3.client import S3Client
 
@@ -35,17 +35,39 @@ def caq__extract(context: dg.AssetExecutionContext, s3: S3Resource) -> list[dict
 def caq__transform(
     context: dg.AssetExecutionContext,
     caq__extract: list[dict],
-) -> list[dict]:
+) -> pl.DataFrame:
     df = pl.from_dicts(caq__extract)
+    df = df.with_columns(
+        {
+            name: pl.col(name).cast(dtype)
+            for name, dtype in ClimateAirQuality.to_schema().items()
+        }
+    )
 
-    columns_to_transform = {}
-    for name, dtype in ClimateAirQuality.to_schema().items():
-        if dtype == pl.Date():
-            columns_to_transform[name] = pl.col(name).str.to_date().cast(dtype)
-        else:
-            columns_to_transform[name] = pl.col(name).cast(pl.Float32())
+    context.add_output_metadata(
+        {
+            "dagster/row_count": len(df),
+            "preview": MetadataValue.table(
+                [TableRecord(d) for d in df.head(10).to_dicts()],
+                schema=TableSchema(
+                    [
+                        TableColumn(name, dtype.to_python().__name__)
+                        for name, dtype in ClimateAirQuality.to_schema().items()
+                    ]
+                ),
+            ),
+        }
+    )
+    return df
 
-    df = df.with_columns(**columns_to_transform)
+
+@dg.asset(kinds={"duckdb"}, io_manager_key=IOManager.DUCKDB.value)
+def caq__load(
+    context: dg.AssetExecutionContext,
+    caq__transform: pl.DataFrame,
+) -> pl.DataFrame:
+    df = caq__transform
+
     context.add_output_metadata(
         {
             "dagster/row_count": len(df),
@@ -54,4 +76,4 @@ def caq__transform(
             ),
         }
     )
-    return df.to_dicts()
+    return df
