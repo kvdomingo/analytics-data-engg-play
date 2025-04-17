@@ -8,9 +8,17 @@ services:
         uv sync;
         exec uv run dagster dev -h 0.0.0.0 -p 3030;
     init: true
-    env_file: .env
     environment:
+      PYTHON_ENV: development
       DAGSTER_HOME: /app
+      NASA_FIRMS_MAP_KEY: ${NASA_FIRMS_MAP_KEY}
+      MINIO_BUCKET: ae-de-play
+      MINIO_ENDPOINT: ${MINIO_ENDPOINT}
+      MINIO_REGION: ${MINIO_REGION}
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
     volumes:
       - .:/app
       - venv-data:/app/.venv
@@ -35,18 +43,6 @@ services:
       interval: 20s
       retries: 3
       timeout: 2s
-
-  minio:
-    image: bitnami/minio:2024.12.18
-    restart: unless-stopped
-    environment:
-      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
-      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
-      MINIO_DEFAULT_BUCKETS: ae-de-play
-    volumes:
-      - minio-data:/bitnami/minio/data
-    ports:
-      - '9000-9001:9000-9001'
 
 volumes:
   dagster-data:

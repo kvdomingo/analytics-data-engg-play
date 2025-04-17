@@ -3,9 +3,6 @@ version: '3'
 env:
   NAME: ae-de-play
 
-dotenv:
-  - .env
-
 tasks:
   default:
     cmd:
@@ -14,7 +11,7 @@ tasks:
   up:
     desc: Build and start containers
     cmds:
-      - docker compose --project-name {{.NAME}} up --detach --build --remove-orphans
+      - infisical run -- docker compose --project-name {{.NAME}} up --detach --build --remove-orphans
 
   stop:
     desc: Stop containers

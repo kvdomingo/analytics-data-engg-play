@@ -3,12 +3,10 @@ from pathlib import Path
 from typing import Literal
 
 from pydantic import computed_field
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
-
     PYTHON_ENV: Literal["development", "production"] = "production"
     BASE_DIR: Path = Path(__file__).parent.parent
     DEFAULT_TZ: str = "Asia/Manila"
@@ -17,9 +15,10 @@ class Settings(BaseSettings):
     NASA_FIRMS_BASE_URL: str = "https://firms.modaps.eosdis.nasa.gov"
 
     MINIO_ENDPOINT: str
+    MINIO_REGION: str
     MINIO_ACCESS_KEY: str
     MINIO_SECRET_KEY: str
-    MINIO_BUCKET: str = "ae-de-play"
+    MINIO_BUCKET: str
 
     @computed_field
     @property

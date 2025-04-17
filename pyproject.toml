@@ -27,6 +27,7 @@ dependencies = [
     "dagster-aws>=0.26.9,<0.27",
     "httpx>=0.27.2,<0.28",
     "boto3-stubs[s3]>=1.37.30",
+    "dagster-obstore>=0.2.3",
 ]
 
 [dependency-groups]

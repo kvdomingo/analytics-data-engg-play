@@ -27,6 +27,7 @@ _s3_resource = S3Resource(
     endpoint_url=settings.MINIO_ENDPOINT,
     aws_access_key_id=settings.MINIO_ACCESS_KEY,
     aws_secret_access_key=settings.MINIO_SECRET_KEY,
+    region_name=settings.MINIO_REGION,
 )
 
 
@@ -43,6 +44,7 @@ RESOURCES = {
             access_key_id=settings.MINIO_ACCESS_KEY,
             secret_access_key=settings.MINIO_SECRET_KEY,
             bucket=settings.MINIO_BUCKET,
+            region=settings.MINIO_REGION,
             allow_unsafe_rename=True,
         ),
         client_options=ClientConfig(allow_http=True),
