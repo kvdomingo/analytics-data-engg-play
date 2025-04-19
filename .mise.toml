@@ -1,6 +1,4 @@
 [tools]
+duckdb = "latest"
 python = "3.12"
 uv = "latest"
-
-[env]
-_.file = ".env"

@@ -12,7 +12,7 @@ dependencies = [
     "dagster-webserver>=1.10.9,<2",
     "dbt-core>=1.8.8,<2",
     "dagster-dbt>=0.26.9,<0.27",
-    "polars==1.27.0",
+    "polars[pyarrow]==1.27.0",
     "dagster-polars>=0.26.9,<0.27",
     "pyarrow>=18.0.0,<19",
     "pydantic>=2.9.2,<3",
@@ -28,6 +28,9 @@ dependencies = [
     "httpx>=0.27.2,<0.28",
     "boto3-stubs[s3]>=1.37.30",
     "dagster-obstore>=0.2.3",
+    "pandas>=2.2.3",
+    "geopandas>=1.0.1",
+    "shapely>=2.1.0",
 ]
 
 [dependency-groups]
@@ -35,6 +38,8 @@ dev = [
     "ruff>=0.6.5,<0.7",
     "ipython>=8.27.0,<9",
     "sqlfluff>=3.1.1,<4",
+    "jupyter>=1.1.1",
+    "notebook>=7.4.0",
 ]
 
 [tool.uv]
