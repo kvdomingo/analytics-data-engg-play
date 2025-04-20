@@ -31,8 +31,8 @@ This repo is my playground for testing out analytics/data engineering tech and p
     ```shell
     task init
     ```
-   This will install pre-commit, install the [pre-commit hooks](./.pre-commit-config.yaml), and setup
-   the [Python virtualenv](./pyproject.toml) for the project.
+   This will install pre-commit, install the [pre-commit hooks](./.pre-commit-config.yaml), setup
+   the [Python virtualenv](./pyproject.toml) for the project, and create a temporary data directory.
 4. This project uses a self-hosted instance of [Infisical](https://infisical.com/) for secrets management. If you are
    using this repo as a template, you will likely be providing your own secrets, which can be read from a standard
    `.env`. Copy the contents of [.env.example](./.env.example) into a new file named `.env` and supply the values
@@ -42,14 +42,6 @@ This repo is my playground for testing out analytics/data engineering tech and p
     task
     ```
 6. Access the Dagster UI at `http://localhost:3030`.
-
-### Cleanup
-
-After finishing work on the project, free up resources by shutting down the containers:
-
-```shell
-task stop
-```
 
 ### Configuration
 
@@ -66,16 +58,77 @@ See [.env.example](./.env.example) for configurable environment variables.
 | MINIO_ROOT_PASSWORD | MinIO root user password                            |
 | NASA_FIRMS_MAP_KEY  | Map Key for access to NASA FIRMS data               |
 
+### Cleanup
+
+After finishing work on the project, free up resources by shutting down the containers:
+
+```shell
+task stop
+```
+
 ## Data
 
-## Sources
+### Sources
 
-- **NASA FIRMS Active Fire Data**: https://firms.modaps.eosdis.nasa.gov/
+- [**NASA FIRMS Active Fire Data**](https://firms.modaps.eosdis.nasa.gov/)
   - Data is accessed on-demand through the API.
   - Requires `NASA_FIRMS_MAP_KEY` environment variable.
-- **Project CCHAIN**: https://www.kaggle.com/datasets/thinkdatasci/project-cchain
+- [**Project CCHAIN**](https://www.kaggle.com/datasets/thinkdatasci/project-cchain)
   - Dataset has been cloned and is accessed from a self-hosted MinIO instance.
   - Requires `MINIO_*` environment variables.
   - This project expects the dataset CSVs to be located in a single directory named `project-cchain` in a bucket named
     `datasets`. This value is not configurable as of now, but can be changed in
     the [source](./src/internal/core.py#L19).
+
+### Materializing local data lake
+
+Select dataset CSVs are ingested, cleaned, standardized, and output as DuckDB tables on the local filesystem. Tables are
+materialized via Dagster.
+
+1. Open the Dagster UI at `http://localhost:3030`.
+2. On the sidebar, navigate to the `cchain` asset group.
+   ![](./docs/images/Screenshot_2025-04-20T15-40-40.969Z.png)
+3. Click on **Materialize all**.
+4. Wait for the run to complete successfully.
+
+The datasets are now available in a local DuckDB file at `data/lake/duck.db`. To begin exploring the data, you can use
+the DuckDB CLI or spin up a Jupyter notebook.
+
+#### DuckDB CLI
+
+1. Open a DuckDB session
+    ```shell
+    duckdb
+    ```
+2. Load the local data lake
+    ```shell
+    .open data/lake/duck.db
+    ```
+3. Start querying the data
+    ```sql
+    SELECT *
+    FROM public.cchain__climate_atmosphere
+    ORDER BY "date"
+    LIMIT 50;
+    ```
+
+#### Jupyter Notebook
+
+1. Start a Jupyter server
+    ```shell
+    uv run jupyter notebook
+    ```
+2. Open the Jupyter notebook UI at `http://localhost:8888`.
+3. Open [scratch.ipynb](./scratch.ipynb), or create your own notebook.
+4. Start querying the data
+    ```python
+    import duckdb
+
+    conn = duckdb.connect("./data/lake/duck.db")
+    conn.sql("""
+    SELECT *
+    FROM public.cchain__climate_atmosphere
+    ORDER BY date
+    LIMIT 50;
+    """).pl()  # Print the results as an interactive Polars dataframe
+    ```

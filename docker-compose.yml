@@ -2,9 +2,7 @@ name: ae-de-play
 
 volumes:
   dagster-data:
-  pgadmin-data:
   venv-data:
-  minio-data:
 
 services:
   dagster:
