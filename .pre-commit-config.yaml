@@ -8,23 +8,29 @@ repos:
       - id: ruff-format
         types_or: [ python, pyi ]
   - repo: https://github.com/sqlfluff/sqlfluff
-    rev: 3.1.1
+    rev: 3.4.0
     hooks:
       - id: sqlfluff-lint
       - id: sqlfluff-fix
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
+    rev: v5.0.0
     hooks:
       - id: check-added-large-files
         args: [ '--maxkb=500' ]
       - id: end-of-file-fixer
       - id: mixed-line-ending
         args: [ '--fix=lf' ]
+      - id: trailing-whitespace
+      - id: check-shebang-scripts-are-executable
+      - id: check-symlinks
       - id: check-merge-conflict
+      - id: check-json
       - id: check-yaml
         args: [ '--allow-multiple-documents' ]
+      - id: check-toml
+      - id: check-xml
   - repo: https://github.com/zricethezav/gitleaks
-    rev: v8.18.4
+    rev: v8.24.3
     hooks:
       - id: gitleaks
         args: [ '--verbose' ]
