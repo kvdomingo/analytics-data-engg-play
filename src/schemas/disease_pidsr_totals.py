@@ -1,6 +1,6 @@
 import polars as pl
 
-DiseasePIDSR = pl.Struct(
+DiseasePidsrTotals = pl.Struct(
     [
         pl.Field("uuid", pl.String()),
         pl.Field("freq", pl.Enum(["W"])),
