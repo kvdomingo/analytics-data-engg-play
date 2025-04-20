@@ -1,3 +1,11 @@
+name: ae-de-play
+
+volumes:
+  dagster-data:
+  pgadmin-data:
+  venv-data:
+  minio-data:
+
 services:
   dagster:
     build: .
@@ -12,7 +20,7 @@ services:
       PYTHON_ENV: development
       DAGSTER_HOME: /app
       NASA_FIRMS_MAP_KEY: ${NASA_FIRMS_MAP_KEY}
-      MINIO_BUCKET: ae-de-play
+      MINIO_BUCKET: ${MINIO_BUCKET}
       MINIO_ENDPOINT: ${MINIO_ENDPOINT}
       MINIO_REGION: ${MINIO_REGION}
       MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
@@ -43,9 +51,3 @@ services:
       interval: 20s
       retries: 3
       timeout: 2s
-
-volumes:
-  dagster-data:
-  pgadmin-data:
-  venv-data:
-  minio-data:

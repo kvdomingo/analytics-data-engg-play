@@ -12,5 +12,8 @@ ClimateAtmosphere = pl.Struct(
         pl.Field("heat_index", pl.Float32()),
         pl.Field("pr", pl.Float32()),
         pl.Field("wind_speed", pl.Float32()),
+        pl.Field("rh", pl.Float32()),
+        pl.Field("solar_rad", pl.Float32()),
+        pl.Field("uv_rad", pl.Float32()),
     ]
 )

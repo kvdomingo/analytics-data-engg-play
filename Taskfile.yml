@@ -1,44 +1,42 @@
 version: '3'
 
-env:
-  NAME: ae-de-play
-
 tasks:
   default:
     cmd:
       task: up
 
+  init:
+    desc: Initial setup
+    cmds:
+      - pip install -U pre-commit
+      - pre-commit install
+      - uv sync
+      - mkdir -p ./data/lake
+
   up:
     desc: Build and start containers
-    cmds:
-      - infisical run -- docker compose --project-name {{.NAME}} up --detach --build --remove-orphans
+    cmd: infisical run -- docker compose up --detach --build --remove-orphans
 
   stop:
     desc: Stop containers
-    cmds:
-      - docker compose --project-name {{.NAME}} stop
+    cmd: docker compose stop
 
   logs:
     desc: Follow logs
-    cmds:
-      - docker compose --project-name {{.NAME}} logs --follow {{.CLI_ARGS}}
+    cmd: docker compose logs --follow {{ .CLI_ARGS }}
 
   restart:
     desc: Restart containers
-    cmds:
-      - docker compose --project-name {{.NAME}} restart {{.CLI_ARGS}}
+    cmd: docker compose restart {{ .CLI_ARGS }}
 
   down:
     desc: Stop and remove containers
-    cmds:
-      - docker compose --project-name {{.NAME}} down
+    cmd: docker compose down
 
   clean:
     desc: Nuke everything
-    cmds:
-      - docker compose --project-name {{.NAME}} down --volumes --remove-orphans
+    cmd: docker compose down --volumes --remove-orphans
 
   exec:
     desc: Execute a command in a running container
-    cmds:
-      - docker compose --project-name {{.NAME}} exec {{.CLI_ARGS}}
+    cmd: docker compose exec {{ .CLI_ARGS }}
