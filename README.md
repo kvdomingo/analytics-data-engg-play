@@ -1,0 +1,81 @@
+# Analytics/Data Engineering Playground
+
+This repo is my playground for testing out analytics/data engineering tech and processes.
+
+## Tech Stack
+
+- [Python 3.12](https://docs.python.org/3.12/)
+- [uv](https://docs.astral.sh/uv)
+- [Dagster](https://docs.dagster.io)
+- [Polars](https://docs.pola.rs)
+- [DuckDB](https://duckdb.org/docs/stable/)
+- [dbt](https://docs.getdbt.com/)
+
+## Local Setup
+
+### Prerequisites
+
+- [Mise](https://mise.jdx.dev/getting-started.html)
+- [Docker](https://docker.com)
+
+### Setup
+
+1. Install the prerequisites.
+2. Install tools:
+    ```shell
+    mise trust -y
+    mise install -y
+    ```
+   This will install required tools & languages for the project. Refer to [.mise.toml](./.mise.toml) for the specifics.
+3. Run initial [setup script](./Taskfile.yml#L8):
+    ```shell
+    task init
+    ```
+   This will install pre-commit, install the [pre-commit hooks](./.pre-commit-config.yaml), and setup
+   the [Python virtualenv](./pyproject.toml) for the project.
+4. This project uses a self-hosted instance of [Infisical](https://infisical.com/) for secrets management. If you are
+   using this repo as a template, you will likely be providing your own secrets, which can be read from a standard
+   `.env`. Copy the contents of [.env.example](./.env.example) into a new file named `.env` and supply the values
+   accordingly.
+5. Run the [container launch script](./Taskfile.yml#L16):
+    ```shell
+    task
+    ```
+6. Access the Dagster UI at `http://localhost:3030`.
+
+### Cleanup
+
+After finishing work on the project, free up resources by shutting down the containers:
+
+```shell
+task stop
+```
+
+### Configuration
+
+See [.env.example](./.env.example) for configurable environment variables.
+
+| Name                | Description                                         |
+|---------------------|-----------------------------------------------------|
+| MINIO_ACCESS_KEY    | Access Key ID for MinIO/S3 bucket                   |
+| MINIO_SECRET_KEY    | Secret Access Key for MinIO/S3 bucket               |
+| MINIO_BUCKET        | MinIO/S3 bucket name to use for Dagster IO managers |
+| MINIO_REGION        | MinIO/S3 bucket region                              |
+| MINIO_ENDPOINT      | MinIO/S3 API endpoint                               |
+| MINIO_ROOT_USER     | MinIO root user username                            |
+| MINIO_ROOT_PASSWORD | MinIO root user password                            |
+| NASA_FIRMS_MAP_KEY  | Map Key for access to NASA FIRMS data               |
+
+## Data
+
+## Sources
+
+- **NASA FIRMS Active Fire Data**: https://firms.modaps.eosdis.nasa.gov/
+  - Data is accessed on-demand through the API.
+  - Requires `NASA_FIRMS_MAP_KEY` environment variable.
+- **Project CCHAIN**: https://www.kaggle.com/datasets/thinkdatasci/project-cchain
+  - Dataset has been cloned and is accessed from a self-hosted MinIO instance.
+  - Requires `MINIO_*` environment variables.
+  - This project expects the dataset CSVs to be located in a single directory named `project-cchain` in a bucket named
+    `datasets`. This value is not configurable as of now, but can be changed in
+    the [source](./src/internal/core.py#L19).
