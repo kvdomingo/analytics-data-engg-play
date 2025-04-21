@@ -1,3 +1,6 @@
+from datetime import date
+from functools import reduce
+
 import polars as pl
 from botocore.response import StreamingBody
 from dagster import (
@@ -29,15 +32,41 @@ def cast_schema_types(df: pl.DataFrame, schema: pl.Struct) -> pl.DataFrame:
     )
 
 
+def drop_columns_not_in_schema(df: pl.DataFrame, schema: pl.Struct) -> pl.DataFrame:
+    return df.select(schema.to_schema().keys())
+
+
+def add_missing_columns(df: pl.DataFrame, schema: pl.Struct) -> pl.DataFrame:
+    return df.with_columns(
+        **{
+            name: pl.lit(None).cast(dtype)
+            for name, dtype in schema.to_schema().items()
+            if name not in df.columns
+        }
+    )
+
+
+def schema_transforms(df: pl.DataFrame, schema: pl.Struct) -> pl.DataFrame:
+    return reduce(
+        lambda x, f: f(x, schema),
+        [
+            drop_columns_not_in_schema,
+            add_missing_columns,
+            cast_schema_types,
+        ],
+        df,
+    )
+
+
 def emit_standard_df_metadata(df: pl.DataFrame, preview_limit: int = 10) -> dict:
     return {
         "dagster/row_count": len(df),
         "preview": MetadataValue.table(
             [
-                TableRecord(d)
-                for d in df.with_columns(date=pl.col("date").cast(pl.String()))
-                .head(preview_limit)
-                .to_dicts()
+                TableRecord(
+                    {k: str(v) if isinstance(v, date) else v for k, v in row.items()}
+                )
+                for row in df.head(preview_limit).iter_rows(named=True)
             ],
             schema=TableSchema(
                 [
