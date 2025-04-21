@@ -33,6 +33,11 @@ dependencies = [
     "shapely>=2.1.0",
     "pyyaml>=6.0.2",
     "polars-st>=0.1.0a18",
+    "numpy>=2.2.2",
+    "matplotlib>=3.10.1",
+    "toml>=0.10.2",
+    "duckdb-engine>=0.17.0",
+    "plotly>=6.0.1",
 ]
 
 [dependency-groups]
@@ -42,6 +47,7 @@ dev = [
     "sqlfluff>=3.1.1,<4",
     "jupyter>=1.1.1",
     "notebook>=7.4.0",
+    "jupysql>=0.11.1",
 ]
 
 [tool.uv]
@@ -100,3 +106,9 @@ project_dir = "./"
 
 [tool.sqlfluff.rules.capitalisation.keywords]
 capitalisation_policy = "upper"
+
+[tool.jupysql.SqlMagic]
+autolimit = false
+autopolars = true
+feedback = 1
+named_parameters = "enabled"

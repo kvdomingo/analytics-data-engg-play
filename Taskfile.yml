@@ -13,6 +13,13 @@ tasks:
       - uv sync
       - mkdir -p ./data/lake
 
+  init-superset:
+    desc: Initial Superset setup
+    cmds:
+      - task exec -- superset superset db upgrade
+      - task exec -- superset superset fab create-admin --username superset --password superset --firstname Super --lastname Set --email hello@kvd.studio
+      - task exec -- superset superset init
+
   up:
     desc: Build and start containers
     cmd: infisical run -- docker compose up --detach --build --remove-orphans

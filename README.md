@@ -10,6 +10,7 @@ This repo is my playground for testing out analytics/data engineering tech and p
 - [Polars](https://docs.pola.rs)
 - [DuckDB](https://duckdb.org/docs/stable/)
 - [dbt](https://docs.getdbt.com/)
+- [Superset](https://superset.apache.org/docs/intro)
 
 ## Local Setup
 
@@ -92,7 +93,7 @@ materialized via Dagster.
 4. Wait for the run to complete successfully.
 
 The datasets are now available in a local DuckDB file at `data/lake/duck.db`. To begin exploring the data, you can use
-the DuckDB CLI or spin up a Jupyter notebook.
+the DuckDB CLI, spin up a Jupyter notebook, or use Apache Superset.
 
 #### DuckDB CLI
 
@@ -132,3 +133,20 @@ the DuckDB CLI or spin up a Jupyter notebook.
     LIMIT 50;
     """).pl()  # Print the results as an interactive Polars dataframe
     ```
+
+#### Apache Superset
+
+1. Open the Superset UI at `http://localhost:8088`.
+2. Login with `superset` as both the username and password.
+3. Navigate to Settings (top-right) > Database Connections.
+4. Click on **+ DATABASE**.
+5. In the **Supported Databases** dropdown, select **DuckDB**.
+6. Click on **Connect this database with a SQLAlchemy URI string instead** link at the bottom of the form.
+7. Use `duckdb:////opt/data/lake/duck.db` as the **SQLAlchemy URI**.
+8. Go to the **Advanced** tab.
+9. Under **SQL Lab** section, ensure the following settings are checked:
+   ![](./docs/images/Screenshot_2025-04-21T18-12-01.312Z.png)
+10. Click on **Connect**.
+11. Navigate to SQL > SQL Lab.
+12. On the left sidebar, select **DuckDB** as the database, and **duck.public** as the schema.
+13. Start querying the data.
