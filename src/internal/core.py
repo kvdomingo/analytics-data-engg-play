@@ -58,9 +58,11 @@ def schema_transforms(df: pl.DataFrame, schema: pl.Struct) -> pl.DataFrame:
     )
 
 
-def emit_standard_df_metadata(df: pl.DataFrame, preview_limit: int = 10) -> dict:
+def emit_standard_df_metadata(
+    df: pl.DataFrame, preview_limit: int = 10, row_count: int = None
+) -> dict:
     return {
-        "dagster/row_count": len(df),
+        "dagster/row_count": row_count or len(df),
         "preview": MetadataValue.table(
             [
                 TableRecord(
