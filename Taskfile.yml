@@ -26,7 +26,7 @@ tasks:
 
   stop:
     desc: Stop containers
-    cmd: docker compose stop
+    cmd: docker compose stop {{ .CLI_ARGS }}
 
   logs:
     desc: Follow logs
@@ -38,11 +38,11 @@ tasks:
 
   down:
     desc: Stop and remove containers
-    cmd: docker compose down
+    cmd: docker compose down {{ .CLI_ARGS }}
 
   clean:
     desc: Nuke everything
-    cmd: docker compose down --volumes --remove-orphans
+    cmd: docker compose down --volumes --remove-orphans {{ .CLI_ARGS }}
 
   exec:
     desc: Execute a command in a running container
