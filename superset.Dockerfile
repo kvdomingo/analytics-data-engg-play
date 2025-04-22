@@ -5,6 +5,7 @@ USER root
 RUN pip install --no-cache-dir  \
     duckdb==1.1.3  \
     duckdb_engine==0.17.0 \
+    pillow==11.2.1  \
     prophet==1.1.6  \
     psycopg2-binary==2.9.10
 
