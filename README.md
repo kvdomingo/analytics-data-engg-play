@@ -88,7 +88,7 @@ materialized via Dagster.
 
 1. Open the Dagster UI at `http://localhost:3030`.
 2. On the sidebar, navigate to the `cchain` asset group.
-   ![](./docs/images/Screenshot_2025-04-24T14-52-09.925Z.png)
+   ![](./docs/images/Screenshot_2025-04-24T16-04-11.152Z.png)
 3. Click on **Materialize all**.
 4. Wait for the run to complete successfully.
 
