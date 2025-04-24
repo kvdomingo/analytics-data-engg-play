@@ -108,7 +108,7 @@ the DuckDB CLI, spin up a Jupyter notebook, or use Apache Superset.
 3. Start querying the data
     ```sql
     SELECT *
-    FROM public.cchain__climate_atmosphere
+    FROM ae_de_play.cchain__climate_atmosphere
     ORDER BY "date"
     LIMIT 50;
     ```
@@ -128,7 +128,7 @@ the DuckDB CLI, spin up a Jupyter notebook, or use Apache Superset.
     conn = duckdb.connect("./data/lake/db.duckdb")
     conn.sql("""
     SELECT *
-    FROM public.cchain__climate_atmosphere
+    FROM ae_de_play.cchain__climate_atmosphere
     ORDER BY date
     LIMIT 50;
     """).pl()  # Print the results as an interactive Polars dataframe
