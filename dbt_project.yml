@@ -1,8 +1,6 @@
 name: ae_de_play
-
 config-version: 2
-version: '0.1'
-
+version: 0.1.0
 profile: default
 
 model-paths: [ src/models ]

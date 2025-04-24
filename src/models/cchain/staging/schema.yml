@@ -4,39 +4,131 @@ models:
   - name: cchain__location_stg
     columns:
       - name: adm1_en
+        data_tests:
+          - not_null
       - name: adm1_pcode
+        data_tests:
+          - not_null
+          - adm_pcode_format
       - name: adm2_en
+        data_tests:
+          - not_null
       - name: adm2_pcode
+        data_tests:
+          - not_null
+          - adm_pcode_format
       - name: adm3_en
+        data_tests:
+          - not_null
       - name: adm3_pcode
+        data_tests:
+          - not_null
+          - adm_pcode_format
       - name: adm4_en
+        data_tests:
+          - not_null
       - name: adm4_pcode
+        data_tests:
+          - not_null
+          - adm_pcode_format
       - name: brgy_total_area
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: false
 
   - name: cchain__climate_atmosphere_stg
     columns:
       - name: uuid
+        data_tests:
+          - not_null
       - name: adm4_pcode
+        data_tests:
+          - not_null
+          - adm_pcode_format
       - name: date
+        data_tests:
+          - not_null
+          - standard_date_format
       - name: freq
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [ D, W, M, Y ]
       - name: tave
+        data_tests:
+          - not_null
       - name: tmin
+        data_tests:
+          - not_null
       - name: tmax
+        data_tests:
+          - not_null
       - name: heat_index
+        data_tests:
+          - not_null
       - name: pr
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true
       - name: wind_speed
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true
       - name: rh
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 100
+              inclusive: true
       - name: solar_rad
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true
       - name: uv_rad
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true
 
   - name: cchain__disease_pidsr_totals_stg
     columns:
       - name: uuid
+        data_tests:
+          - not_null
       - name: freq
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [ D, W, M, Y ]
       - name: date
+        data_tests:
+          - not_null
+          - standard_date_format
       - name: source_name
       - name: source_filename
       - name: adm3_pcode
+        data_tests:
+          - not_null
+          - adm_pcode_format
       - name: disease_icd10_code
+        data_tests:
+          - not_null
       - name: disease_common_name
+        data_tests:
+          - not_null
       - name: case_total
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true

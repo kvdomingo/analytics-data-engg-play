@@ -1,0 +1,21 @@
+version: 2
+
+data_tests:
+  - name: test_standard_date_format
+    description: Ensures dates are in the format YYYY-MM-DD.
+    arguments:
+      - name: model
+        type: string
+        description: Model name
+      - name: column_name
+        type: string
+        description: Column name
+  - name: test_adm_pcode_format
+    description: Ensures adm pcodes are in the format PHXXXXXXXXX.
+    arguments:
+      - name: model
+        type: string
+        description: Model name
+      - name: column_name
+        type: string
+        description: Column name
