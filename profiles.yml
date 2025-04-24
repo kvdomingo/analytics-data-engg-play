@@ -4,4 +4,4 @@ default:
     dev:
       type: duckdb
       path: data/lake/duck.db
-      threads: 16
+      threads: 32

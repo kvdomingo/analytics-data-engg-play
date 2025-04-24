@@ -1,9 +1,0 @@
-version: 2
-
-sources:
-  - name: ae_de_play
-    tables:
-      - name: raw_afg
-        meta:
-          dagster:
-            asset_key: [ raw_afg ]

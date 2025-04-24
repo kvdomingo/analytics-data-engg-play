@@ -12,6 +12,7 @@ tasks:
       - pre-commit install
       - uv sync
       - mkdir -p ./data/lake
+      - uv run dbt deps
 
   init-superset:
     desc: Initial Superset setup

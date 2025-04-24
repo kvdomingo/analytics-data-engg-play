@@ -1,0 +1,42 @@
+version: 2
+
+models:
+  - name: location
+    columns:
+      - name: adm1_en
+      - name: adm1_pcode
+      - name: adm2_en
+      - name: adm2_pcode
+      - name: adm3_en
+      - name: adm3_pcode
+      - name: adm4_en
+      - name: adm4_pcode
+      - name: brgy_total_area
+
+  - name: climate_atmosphere
+    columns:
+      - name: uuid
+      - name: adm4_pcode
+      - name: date
+      - name: freq
+      - name: tave
+      - name: tmin
+      - name: tmax
+      - name: heat_index
+      - name: pr
+      - name: wind_speed
+      - name: rh
+      - name: solar_rad
+      - name: uv_rad
+
+  - name: disease_pidsr_totals
+    columns:
+      - name: uuid
+      - name: freq
+      - name: date
+      - name: source_name
+      - name: source_filename
+      - name: adm3_pcode
+      - name: disease_icd10_code
+      - name: disease_common_name
+      - name: case_total
