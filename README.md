@@ -92,7 +92,7 @@ materialized via Dagster.
 3. Click on **Materialize all**.
 4. Wait for the run to complete successfully.
 
-The datasets are now available in a local DuckDB file at `data/lake/duck.db`. To begin exploring the data, you can use
+The datasets are now available in a local DuckDB file at `data/lake/db.duckdb`. To begin exploring the data, you can use
 the DuckDB CLI, spin up a Jupyter notebook, or use Apache Superset.
 
 #### DuckDB CLI
@@ -103,7 +103,7 @@ the DuckDB CLI, spin up a Jupyter notebook, or use Apache Superset.
     ```
 2. Load the local data lake
     ```shell
-    .open data/lake/duck.db
+    .open data/lake/db.duckdb
     ```
 3. Start querying the data
     ```sql
@@ -125,7 +125,7 @@ the DuckDB CLI, spin up a Jupyter notebook, or use Apache Superset.
     ```python
     import duckdb
 
-    conn = duckdb.connect("./data/lake/duck.db")
+    conn = duckdb.connect("./data/lake/db.duckdb")
     conn.sql("""
     SELECT *
     FROM public.cchain__climate_atmosphere
@@ -142,7 +142,7 @@ the DuckDB CLI, spin up a Jupyter notebook, or use Apache Superset.
 4. Click on **+ DATABASE**.
 5. In the **Supported Databases** dropdown, select **DuckDB**.
 6. Click on **Connect this database with a SQLAlchemy URI string instead** link at the bottom of the form.
-7. Use `duckdb:////opt/data/lake/duck.db` as the **SQLAlchemy URI**.
+7. Use `duckdb:////opt/data/lake/db.duckdb` as the **SQLAlchemy URI**.
 8. Go to the **Advanced** tab.
 9. Under **SQL Lab** section, ensure the following settings are checked:
    ![](./docs/images/Screenshot_2025-04-21T18-12-01.312Z.png)

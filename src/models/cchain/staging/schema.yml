@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: stg_location
+  - name: cchain__location_stg
     columns:
       - name: adm1_en
       - name: adm1_pcode
@@ -13,7 +13,7 @@ models:
       - name: adm4_pcode
       - name: brgy_total_area
 
-  - name: stg_climate_atmosphere
+  - name: cchain__climate_atmosphere_stg
     columns:
       - name: uuid
       - name: adm4_pcode
@@ -29,7 +29,7 @@ models:
       - name: solar_rad
       - name: uv_rad
 
-  - name: stg_disease_pidsr_totals
+  - name: cchain__disease_pidsr_totals_stg
     columns:
       - name: uuid
       - name: freq

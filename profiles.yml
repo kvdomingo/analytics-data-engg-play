@@ -3,5 +3,6 @@ default:
   outputs:
     dev:
       type: duckdb
-      path: data/lake/duck.db
+      path: data/lake/db.duckdb
+      schema: ae_de_play
       threads: 32

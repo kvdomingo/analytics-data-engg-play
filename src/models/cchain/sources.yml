@@ -1,0 +1,17 @@
+version: 2
+
+sources:
+  - name: ae_de_play
+    tables:
+      - name: cchain__location_raw
+        meta:
+          dagster:
+            asset_key: [ cchain__location_raw ]
+      - name: cchain__climate_atmosphere_raw
+        meta:
+          dagster:
+            asset_key: [ cchain__climate_atmosphere_raw ]
+      - name: cchain__disease_pidsr_totals_raw
+        meta:
+          dagster:
+            asset_key: [ cchain__disease_pidsr_totals_raw ]

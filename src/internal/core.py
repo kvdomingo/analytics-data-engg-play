@@ -4,7 +4,6 @@ from functools import reduce
 import polars as pl
 from botocore.response import StreamingBody
 from dagster import (
-    AssetExecutionContext,
     MetadataValue,
     TableColumn,
     TableRecord,
@@ -12,8 +11,6 @@ from dagster import (
 )
 from dagster_aws.s3 import S3Resource
 from mypy_boto3_s3 import S3Client
-
-from src import schemas
 
 
 def get_csv_from_s3_datasets(path: str, s3: S3Resource) -> bytes:
@@ -78,19 +75,3 @@ def emit_standard_df_metadata(
             ),
         ),
     }
-
-
-def extract_schema_from_partition_key(context: AssetExecutionContext) -> pl.Struct:
-    schema_class_name = "".join(
-        [
-            "".join([s.upper() if i == 0 else s for i, s in enumerate(split)])
-            for split in context.partition_key.split("_")
-        ]
-    )
-
-    if not hasattr(schemas, schema_class_name):
-        error = f"No such schema src.schemas.{schema_class_name}"
-        context.log.error(error)
-        raise ModuleNotFoundError(error)
-
-    return getattr(schemas, schema_class_name)

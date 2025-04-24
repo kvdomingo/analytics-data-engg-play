@@ -20,6 +20,7 @@ services:
     environment:
       PYTHON_ENV: development
       DAGSTER_HOME: /app
+      DBT_TARGET_PATH: /app/src/target
       NASA_FIRMS_MAP_KEY: ${NASA_FIRMS_MAP_KEY}
       MINIO_BUCKET: ${MINIO_BUCKET}
       MINIO_ENDPOINT: ${MINIO_ENDPOINT}

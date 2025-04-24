@@ -28,7 +28,7 @@ class Settings(BaseSettings):
     @computed_field
     @property
     def DUCKDB_DATABASE(self) -> str:
-        return str(self.BASE_DIR / "data/lake/duck.db")
+        return str(self.BASE_DIR / "data/lake/db.duckdb")
 
 
 @lru_cache
