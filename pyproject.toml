@@ -107,6 +107,9 @@ project_dir = "./"
 [tool.sqlfluff.rules.capitalisation.keywords]
 capitalisation_policy = "upper"
 
+[tool.sqlfluff.rules.references.keywords]
+quoted_identifiers_policy = "table_aliases"
+
 [tool.jupysql.SqlMagic]
 autolimit = false
 autopolars = true
