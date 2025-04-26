@@ -2,6 +2,10 @@ version: 2
 
 models:
   - name: cchain__location_stg
+    config:
+      meta:
+        dagster:
+          group: cchain
     columns:
       - name: adm1_en
         data_tests:
@@ -39,6 +43,10 @@ models:
               inclusive: false
 
   - name: cchain__climate_atmosphere_stg
+    config:
+      meta:
+        dagster:
+          group: cchain
     columns:
       - name: uuid
         data_tests:
@@ -101,6 +109,10 @@ models:
               inclusive: true
 
   - name: cchain__disease_pidsr_totals_stg
+    config:
+      meta:
+        dagster:
+          group: cchain
     columns:
       - name: uuid
         data_tests:

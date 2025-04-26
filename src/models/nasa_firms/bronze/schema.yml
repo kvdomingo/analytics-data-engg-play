@@ -1,0 +1,110 @@
+version: 2
+
+x-viirs-columns: &viirs_columns
+  - name: id
+    data_tests:
+      - not_null
+      - unique
+  - name: country_id
+    data_tests:
+      - not_null
+      - dbt_utils.expression_is_true:
+          expression: "length(country_id) = 3"
+  - name: latitude
+    data_tests:
+      - not_null
+      - dbt_utils.accepted_range:
+          min_value: -90
+          max_value: 90
+          inclusive: true
+  - name: longitude
+    data_tests:
+      - not_null
+      - dbt_utils.accepted_range:
+          min_value: -180
+          max_value: 180
+          inclusive: true
+  - name: bright_ti4
+    data_tests:
+      - not_null
+      - dbt_utils.accepted_range:
+          min_value: 0
+          inclusive: true
+  - name: bright_ti5
+    data_tests:
+      - not_null
+      - dbt_utils.accepted_range:
+          min_value: 0
+          inclusive: true
+  - name: scan
+    data_tests:
+      - not_null
+      - dbt_utils.accepted_range:
+          min_value: 0
+          inclusive: true
+  - name: track
+    data_tests:
+      - not_null
+      - dbt_utils.accepted_range:
+          min_value: 0
+          inclusive: true
+  - name: acq_date
+    data_tests:
+      - not_null
+      - dbt_utils.expression_is_true:
+          expression: "<= current_date"
+  - name: acq_time
+    data_tests:
+      - not_null
+      - dbt_utils.expression_is_true:
+          expression: "<= '09:00'::TIME"
+  - name: satellite
+    data_tests:
+      - not_null
+  - name: instrument
+    data_tests:
+      - not_null
+  - name: confidence
+    data_tests:
+      - not_null
+      - accepted_values:
+          values: [ l, n, h ]
+  - name: version
+    data_tests:
+      - not_null
+  - name: frp
+    data_tests:
+      - not_null
+      - dbt_utils.accepted_range:
+          min_value: 0
+          inclusive: true
+  - name: daynight
+    data_tests:
+      - not_null
+      - accepted_values:
+          values: [ D, N ]
+
+x-viirs-config: &viirs_config
+  meta:
+    dagster:
+      group: nasa_firms
+
+models:
+  - name: nasa_firms__viirs_snpp_bronze
+    config: *viirs_config
+    columns: *viirs_columns
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [ acq_date, acq_time ]
+  - name: nasa_firms__viirs_noaa20_bronze
+    config: *viirs_config
+    columns: *viirs_columns
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [ acq_date, acq_time ]
+  - name: nasa_firms__viirs_noaa21_bronze
+    config: *viirs_config
+    columns: *viirs_columns
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [ acq_date, acq_time ]

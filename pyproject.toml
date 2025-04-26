@@ -12,7 +12,7 @@ dependencies = [
     "dagster-webserver>=1.10.9,<2",
     "dbt-core>=1.8.8,<2",
     "dagster-dbt>=0.26.9,<0.27",
-    "polars[pyarrow]==1.27.0",
+    "polars[pyarrow]==1.28",
     "dagster-polars>=0.26.9,<0.27",
     "pyarrow>=18.0.0,<19",
     "pydantic>=2.9.2,<3",
@@ -39,6 +39,10 @@ dependencies = [
     "duckdb-engine>=0.17.0",
     "plotly>=6.0.1",
     "deltalake>=0.25.5",
+    "psycopg2-binary>=2.9.10",
+    "asyncpg>=0.30.0",
+    "sqlalchemy>=2.0.37",
+    "loguru>=0.7.3",
 ]
 
 [dependency-groups]

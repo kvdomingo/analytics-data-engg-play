@@ -2,7 +2,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Literal
 
-from pydantic import computed_field
+from pydantic import PostgresDsn, computed_field
 from pydantic_settings import BaseSettings
 
 
@@ -20,6 +20,12 @@ class Settings(BaseSettings):
     MINIO_SECRET_KEY: str
     MINIO_BUCKET: str
 
+    DATA_DB_USERNAME: str
+    DATA_DB_PASSWORD: str
+    DATA_DB_DATABASE: str
+    DATA_DB_HOST: str
+    DATA_DB_PORT: int
+
     @computed_field
     @property
     def IS_PRODUCTION(self) -> bool:
@@ -29,6 +35,20 @@ class Settings(BaseSettings):
     @property
     def DUCKDB_DATABASE(self) -> str:
         return str(self.BASE_DIR / "data/lake/db.duckdb")
+
+    @computed_field
+    @property
+    def DATA_DB_CONNECTION(self) -> str:
+        return str(
+            PostgresDsn.build(
+                scheme="postgresql+psycopg2",
+                username=self.DATA_DB_USERNAME,
+                password=self.DATA_DB_PASSWORD,
+                host=self.DATA_DB_HOST,
+                port=self.DATA_DB_PORT,
+                path=self.DATA_DB_DATABASE,
+            )
+        )
 
 
 @lru_cache

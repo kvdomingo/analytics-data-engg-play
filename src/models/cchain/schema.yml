@@ -2,6 +2,10 @@ version: 2
 
 models:
   - name: cchain__location
+    config:
+      meta:
+        dagster:
+          group: cchain
     columns:
       - name: adm1_en
       - name: adm1_pcode
@@ -14,6 +18,10 @@ models:
       - name: brgy_total_area
 
   - name: cchain__climate_atmosphere
+    config:
+      meta:
+        dagster:
+          group: cchain
     columns:
       - name: id
       - name: adm4_pcode
@@ -30,6 +38,10 @@ models:
       - name: uv_radiance
 
   - name: cchain__disease_pidsr_totals
+    config:
+      meta:
+        dagster:
+          group: cchain
     columns:
       - name: id
       - name: frequency

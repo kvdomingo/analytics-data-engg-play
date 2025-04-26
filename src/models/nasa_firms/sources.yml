@@ -1,0 +1,17 @@
+version: 2
+
+sources:
+  - name: ae_de_play
+    tables:
+      - name: nasa_firms__viirs_snpp_raw
+        meta:
+          dagster:
+            asset_key: [ nasa_firms__viirs_snpp_raw ]
+      - name: nasa_firms__viirs_noaa20_raw
+        meta:
+          dagster:
+            asset_key: [ nasa_firms__viirs_noaa20_raw ]
+      - name: nasa_firms__viirs_noaa21_raw
+        meta:
+          dagster:
+            asset_key: [ nasa_firms__viirs_noaa21_raw ]

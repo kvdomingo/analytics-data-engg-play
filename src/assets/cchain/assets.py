@@ -1,5 +1,4 @@
 import dagster as dg
-from dagster_dbt import DbtCliResource, dbt_assets, get_asset_key_for_model
 from dagster_duckdb import DuckDBResource
 from duckdb.duckdb import DuckDBPyConnection
 
@@ -7,18 +6,10 @@ from src.dbt_project import dbt_project
 from src.internal.core import emit_standard_df_metadata
 
 
-@dbt_assets(manifest=dbt_project.manifest_path)
-def cchain_dbt_assets(context: dg.AssetExecutionContext, dbt: DbtCliResource):
-    yield from dbt.cli(["build"], context=context).stream()
-
-
 @dg.asset(
     group_name="cchain",
     kinds={"duckdb"},
-    deps={
-        get_asset_key_for_model([cchain_dbt_assets], "cchain__climate_atmosphere"),
-        get_asset_key_for_model([cchain_dbt_assets], "cchain__location"),
-    },
+    deps={"cchain__climate_atmosphere", "cchain__location"},
     metadata={"schema": dbt_project.name},
 )
 def cchain__climate_atmosphere_location(
@@ -65,10 +56,7 @@ def cchain__climate_atmosphere_location(
 @dg.asset(
     group_name="cchain",
     kinds={"duckdb"},
-    deps={
-        get_asset_key_for_model([cchain_dbt_assets], "cchain__disease_pidsr_totals"),
-        get_asset_key_for_model([cchain_dbt_assets], "cchain__location"),
-    },
+    deps={"cchain__disease_pidsr_totals", "cchain__location"},
     metadata={"schema": dbt_project.name},
 )
 def cchain__disease_pidsr_location(

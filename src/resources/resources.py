@@ -10,6 +10,8 @@ from dagster_duckdb_polars import DuckDBPolarsIOManager
 
 from src.settings import settings
 
+from .nasa_firms_api import NasaFirmsApi
+
 
 class IOManager(Enum):
     DUCKDB = "duckdb_io_manager"
@@ -21,6 +23,7 @@ class Resource(Enum):
     DUCKDB = "duckdb"
     DBT = "dbt"
     S3 = "s3"
+    NASA_FIRMS_API = "nasa_firms_api"
 
 
 _s3_resource = S3Resource(
@@ -35,6 +38,7 @@ RESOURCES = {
     Resource.DUCKDB.value: DuckDBResource(database=settings.DUCKDB_DATABASE),
     Resource.DBT.value: DbtCliResource(project_dir=settings.BASE_DIR),
     Resource.S3.value: _s3_resource,
+    Resource.NASA_FIRMS_API.value: NasaFirmsApi(map_key=settings.NASA_FIRMS_MAP_KEY),
     IOManager.DUCKDB.value: DuckDBPolarsIOManager(database=settings.DUCKDB_DATABASE),
     IOManager.DELTALAKE.value: DeltaLakePolarsIOManager(
         root_uri=f"s3a://{settings.MINIO_BUCKET}",

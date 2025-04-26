@@ -23,6 +23,10 @@ models:
       materialized: view
       +docs:
         node_color: silver
+    bronze:
+      materialized: view
+      +docs:
+        node_color: sienna
     +docs:
       node_color: gold
 
