@@ -38,6 +38,7 @@ dependencies = [
     "toml>=0.10.2",
     "duckdb-engine>=0.17.0",
     "plotly>=6.0.1",
+    "deltalake>=0.25.5",
 ]
 
 [dependency-groups]

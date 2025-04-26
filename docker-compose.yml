@@ -1,6 +1,7 @@
 name: ae-de-play
 
 volumes:
+  db-data:
   dagster-data:
   venv-data:
   superset-home-data:
@@ -87,3 +88,21 @@ services:
     depends_on:
       superset-db:
         condition: service_healthy
+
+  db:
+    build:
+      context: .
+      dockerfile: pg.Dockerfile
+    image: kvdomingo/ae-de-play-postgresql
+    restart: unless-stopped
+    command:
+      - postgres
+      - -c
+      - shared_preload_libraries=pg_stat_statements,pg_duckdb
+    environment:
+      POSTGRES_PASSWORD: password
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./initdb:/docker-entrypoint-initdb.d
+    ports:
+      - '5432:5432'
