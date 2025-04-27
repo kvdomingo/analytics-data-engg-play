@@ -16,7 +16,13 @@ def build_viirs_raw_asset(satellite_code: str):
         group_name="nasa_firms",
         kinds={"polars", "duckdb"},
         io_manager_key=IOManager.DUCKDB.value,
-        metadata={"schema": dbt_project.name},
+        metadata={
+            "schema": dbt_project.name,
+            "partition_expr": {
+                "date": "acq_date",
+                "country": "country_id",
+            },
+        },
         partitions_def=country_daily_partitions_def,
     )
     async def extract_raw(
@@ -27,8 +33,8 @@ def build_viirs_raw_asset(satellite_code: str):
         country = partition_keys_dims["country"]
         date = partition_keys_dims["date"]
 
-        text = await nasa_firms_api.get_text(country, date, satellite_code)
-        df = pl.read_csv(text, infer_schema=False)
+        csv = await nasa_firms_api.get_bytes(country, date, satellite_code)
+        df = pl.read_csv(csv, infer_schema=False)
         context.add_output_metadata(emit_standard_df_metadata(df))
         return df
 

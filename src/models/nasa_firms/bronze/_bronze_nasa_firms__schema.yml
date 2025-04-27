@@ -96,12 +96,14 @@ models:
     tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns: [ acq_date, acq_time ]
+
   - name: nasa_firms__viirs_noaa20_bronze
     config: *viirs_config
     columns: *viirs_columns
     tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns: [ acq_date, acq_time ]
+
   - name: nasa_firms__viirs_noaa21_bronze
     config: *viirs_config
     columns: *viirs_columns

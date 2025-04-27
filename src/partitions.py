@@ -10,8 +10,7 @@ from dagster import (
 from src.settings import settings
 
 daily_partitions_def = DailyPartitionsDefinition(
-    start_date=datetime(2024, 10, 1, tzinfo=ZoneInfo(settings.DEFAULT_TZ)),
-    hour_offset=5,
+    start_date=datetime(2025, 2, 1, tzinfo=ZoneInfo(settings.DEFAULT_TZ)),
     timezone=settings.DEFAULT_TZ,
 )
 

@@ -1,6 +1,5 @@
 {% macro acq_time_to_time(column_name) %}
 
-SELECT
 strftime(
     (current_date::TEXT
         || ' '

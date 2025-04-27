@@ -6,33 +6,38 @@
     )
 }}
 
-SELECT *
-FROM {{ ref('nasa_firms__viirs_snpp_bronze') }}
-{% if is_incremental() %}
-WHERE
-    date >= '{{ var('min_date') }}'::DATE
-    AND date <= '{{ var('max_date') }}'
-    AND country_id = '{{ var('country') }}'
-{% endif %}
+WITH snpp AS (
+    SELECT *
+    FROM {{ ref('nasa_firms__viirs_snpp_bronze') }}
+    {% if is_incremental() %}
+    WHERE
+        date = '{{ var('date') }}'::DATE
+        AND country_id = '{{ var('country') }}'
+    {% endif %}
+),
 
+noaa20 AS (
+    SELECT *
+    FROM {{ ref('nasa_firms__viirs_noaa20_bronze') }}
+    {% if is_incremental() %}
+    WHERE
+        date = '{{ var('date') }}'::DATE
+        AND country_id = '{{ var('country') }}'
+    {% endif %}
+),
+
+noaa21 AS (
+    SELECT *
+    FROM {{ ref('nasa_firms__viirs_noaa21_bronze') }}
+    {% if is_incremental() %}
+    WHERE
+        date = '{{ var('date') }}'::DATE
+        AND country_id = '{{ var('country') }}'
+    {% endif %}
+)
+
+SELECT * FROM snpp
 UNION ALL BY NAME
-
-SELECT *
-FROM {{ ref('nasa_firms__viirs_noaa20_bronze') }}
-{% if is_incremental() %}
-WHERE
-    date >= '{{ var('min_date') }}'::DATE
-    AND date <= '{{ var('max_date') }}'
-    AND country_id = '{{ var('country') }}'
-{% endif %}
-
+SELECT * FROM noaa20
 UNION ALL BY NAME
-
-SELECT *
-FROM {{ ref('nasa_firms__viirs_noaa21_bronze') }}
-{% if is_incremental() %}
-WHERE
-    date >= '{{ var('min_date') }}'::DATE
-    AND date <= '{{ var('max_date') }}'
-    AND country_id = '{{ var('country') }}'
-{% endif %}
+SELECT * FROM noaa21
