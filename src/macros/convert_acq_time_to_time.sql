@@ -6,7 +6,7 @@ strftime(
         || (FLOOR({{ column_name }} / 100)::INT)::TEXT
         || ':'
         || LPAD(
-            ({{ column_name }} - FLOOR({{ column_name }} / 100)::INT * 100)::TEXT,
+            ({{ column_name }} % 100)::TEXT,
             2,
             '0'
     ))::TIMESTAMP,

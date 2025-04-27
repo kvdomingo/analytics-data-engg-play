@@ -1,3 +1,5 @@
+import json
+
 import dagster as dg
 from dagster_dbt import (
     DbtCliResource,
@@ -24,8 +26,20 @@ def cchain__dbt_assets(context: dg.AssetExecutionContext, dbt: DbtCliResource):
     partitions_def=country_daily_partitions_def,
 )
 def nasa_firms__dbt_assets(context: dg.AssetExecutionContext, dbt: DbtCliResource):
+    partition_keys: dg.MultiPartitionKey = context.partition_key
+    partition_keys_dims = partition_keys.keys_by_dimension
+    country = partition_keys_dims["country"]
+    date = partition_keys_dims["date"]
+
     yield from (
-        dbt.cli(["build"], context=context)
+        dbt.cli(
+            [
+                "build",
+                "--vars",
+                json.dumps({"date": date, "country": country}),
+            ],
+            context=context,
+        )
         .stream()
         .fetch_row_counts()
         .fetch_column_metadata()
