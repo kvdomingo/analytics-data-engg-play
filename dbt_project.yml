@@ -19,14 +19,18 @@ require-dbt-version: [ '>=1.0.0', '<2.0.0' ]
 models:
   ae_de_play:
     materialized: table
-    staging:
-      materialized: view
-      +docs:
-        node_color: silver
     bronze:
       materialized: view
       +docs:
         node_color: sienna
+    staging:
+      materialized: view
+      +docs:
+        node_color: rosybrown
+    silver:
+      materialized: view
+      +docs:
+        node_color: silver
     +docs:
       node_color: gold
 

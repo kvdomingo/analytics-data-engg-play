@@ -3,14 +3,14 @@
 strftime(
     (current_date::TEXT
         || ' '
-        || (FLOOR({{ column_name }} / 100)::INT)::TEXT
+        || (FLOOR({{ column_name }}::INT / 100)::INT)::TEXT
         || ':'
         || LPAD(
-            ({{ column_name }} % 100)::TEXT,
+            ({{ column_name }}::INT % 100)::TEXT,
             2,
             '0'
     ))::TIMESTAMP,
     '%I:%M'
-)
+)::TIME
 
 {% endmacro %}

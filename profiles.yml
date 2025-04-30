@@ -4,5 +4,7 @@ default:
     dev:
       type: duckdb
       path: data/lake/db.duckdb
+      extensions:
+        - spatial
       schema: ae_de_play
       threads: 32

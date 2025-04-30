@@ -1,0 +1,73 @@
+version: 2
+
+x-viirs-columns: &viirs_columns
+  - name: id
+  - name: country_id
+  - name: latitude
+    data_tests:
+      - dbt_utils.accepted_range:
+          min_value: -90
+          max_value: 90
+          inclusive: true
+  - name: longitude
+    data_tests:
+      - dbt_utils.accepted_range:
+          min_value: -180
+          max_value: 180
+          inclusive: true
+  - name: bright_ti4
+    data_tests:
+      - dbt_utils.accepted_range:
+          min_value: 0
+          inclusive: true
+  - name: bright_ti5
+    data_tests:
+      - dbt_utils.accepted_range:
+          min_value: 0
+          inclusive: true
+  - name: scan
+    data_tests:
+      - dbt_utils.accepted_range:
+          min_value: 0
+          inclusive: true
+  - name: track
+    data_tests:
+      - dbt_utils.accepted_range:
+          min_value: 0
+          inclusive: true
+  - name: acq_date
+    data_tests:
+      - dbt_utils.expression_is_true:
+          expression: "<= current_date"
+  - name: acq_time
+    data_tests:
+      - dbt_utils.expression_is_true:
+          expression: "<= '09:00'::TIME"
+  - name: satellite
+  - name: instrument
+  - name: confidence
+  - name: version
+  - name: frp
+    data_tests:
+      - dbt_utils.accepted_range:
+          min_value: 0
+          inclusive: true
+  - name: daynight
+
+x-viirs-config: &viirs_config
+  meta:
+    dagster:
+      group: nasa_firms
+
+models:
+  - name: nasa_firms__viirs_snpp_stg
+    config: *viirs_config
+    columns: *viirs_columns
+
+  - name: nasa_firms__viirs_noaa20_stg
+    config: *viirs_config
+    columns: *viirs_columns
+
+  - name: nasa_firms__viirs_noaa21_stg
+    config: *viirs_config
+    columns: *viirs_columns
