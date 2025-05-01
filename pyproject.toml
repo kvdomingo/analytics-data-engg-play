@@ -43,6 +43,8 @@ dependencies = [
     "asyncpg>=0.30.0",
     "sqlalchemy>=2.0.37",
     "loguru>=0.7.3",
+    "dlt[duckdb,filesyste,filesystem,filesystme]>=1.10.0",
+    "dagster-dlt>=0.26.9",
 ]
 
 [dependency-groups]

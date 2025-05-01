@@ -5,6 +5,7 @@ from dagster_dbt import DbtCliResource
 from dagster_deltalake import S3Config, WriteMode
 from dagster_deltalake.config import ClientConfig
 from dagster_deltalake_polars import DeltaLakePolarsIOManager
+from dagster_dlt import DagsterDltResource
 from dagster_duckdb import DuckDBResource
 from dagster_duckdb_polars import DuckDBPolarsIOManager
 
@@ -22,6 +23,7 @@ class IOManager(Enum):
 class Resource(Enum):
     DUCKDB = "duckdb"
     DBT = "dbt"
+    DLT = "dlt"
     S3 = "s3"
     NASA_FIRMS_API = "nasa_firms_api"
 
@@ -37,6 +39,7 @@ _s3_resource = S3Resource(
 RESOURCES = {
     Resource.DUCKDB.value: DuckDBResource(database=settings.DUCKDB_DATABASE),
     Resource.DBT.value: DbtCliResource(project_dir=settings.BASE_DIR),
+    Resource.DLT.value: DagsterDltResource(),
     Resource.S3.value: _s3_resource,
     Resource.NASA_FIRMS_API.value: NasaFirmsApi(map_key=settings.NASA_FIRMS_MAP_KEY),
     IOManager.DUCKDB.value: DuckDBPolarsIOManager(database=settings.DUCKDB_DATABASE),
