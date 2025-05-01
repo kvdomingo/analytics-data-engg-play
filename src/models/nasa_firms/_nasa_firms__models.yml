@@ -1,0 +1,23 @@
+version: 2
+
+models:
+  - name: nasa_firms__viirs
+    config:
+      meta:
+        dagster:
+          group: nasa_firms
+    columns:
+      - name: id
+      - name: country_id
+      - name: geometry
+      - name: timestamp
+      - name: bright_ti4
+      - name: bright_ti5
+      - name: scan
+      - name: track
+      - name: satellite
+      - name: instrument
+      - name: confidence
+      - name: version
+      - name: frp
+      - name: daynight
