@@ -46,6 +46,7 @@ dependencies = [
     { name = "asyncpg" },
     { name = "boto3-stubs", extra = ["s3"] },
     { name = "country-converter" },
+    { name = "countrycode" },
     { name = "dagster" },
     { name = "dagster-aws" },
     { name = "dagster-dbt" },
@@ -95,7 +96,8 @@ requires-dist = [
     { name = "asyncpg", specifier = ">=0.30.0" },
     { name = "boto3-stubs", extras = ["s3"], specifier = ">=1.37.30" },
     { name = "country-converter", specifier = "~=1.2" },
-    { name = "dagster", specifier = ">=1.10.9,<2" },
+    { name = "countrycode", specifier = ">=0.4.0" },
+    { name = "dagster", specifier = "~=1.10.9" },
     { name = "dagster-aws", specifier = ">=0.26.9,<0.27" },
     { name = "dagster-dbt", specifier = ">=0.26.9,<0.27" },
     { name = "dagster-deltalake", specifier = ">=0.26.9,<0.27" },
@@ -104,7 +106,7 @@ requires-dist = [
     { name = "dagster-obstore", specifier = ">=0.2.3" },
     { name = "dagster-polars", specifier = ">=0.26.9,<0.27" },
     { name = "dagster-postgres", specifier = ">=0.26.9,<0.27" },
-    { name = "dagster-webserver", specifier = ">=1.10.9,<2" },
+    { name = "dagster-webserver", specifier = "~=1.10.9" },
     { name = "dbt-core", specifier = ">=1.8.8,<2" },
     { name = "dbt-duckdb", specifier = ">=1.9.0,<2" },
     { name = "deltalake", specifier = ">=0.25.5" },
@@ -117,7 +119,7 @@ requires-dist = [
     { name = "numpy", specifier = ">=2.2.2" },
     { name = "pandas", specifier = ">=2.2.3" },
     { name = "plotly", specifier = ">=6.0.1" },
-    { name = "polars", extras = ["pyarrow"], specifier = "==1.28" },
+    { name = "polars", extras = ["pyarrow"], specifier = "~=1.29" },
     { name = "polars-st", specifier = ">=0.1.0a18" },
     { name = "psycopg2-binary", specifier = ">=2.9.10" },
     { name = "pyarrow", specifier = ">=18.0.0,<19" },
@@ -565,6 +567,15 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/82/38/2ead1f573464121c6ecf7589a30a3245e6f38845e16d9209310dcb5802b9/country_converter-1.3.tar.gz", hash = "sha256:f6a1a14d1f98112ca90a5198f645f4e60bb73840e98f3f733893ff5b617c2f38", size = 61524, upload-time = "2024-11-15T14:45:56.139Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/1b/9e/70823cb203d780279e1f4fe6dbd72d3ecf22ed0ab6f2545bcd3989944e75/country_converter-1.3-py3-none-any.whl", hash = "sha256:006958c83adeada455d2f178921fdd051def736259ff250fada912eaf3ca8cf1", size = 47168, upload-time = "2024-11-15T14:45:53.958Z" },
+]
+
+[[package]]
+name = "countrycode"
+version = "0.4.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/2a/5a/f8352778ba17f161c0d03608fbb9f92300f42e7cdcb334c6f8489c575add/countrycode-0.4.0.tar.gz", hash = "sha256:2f4c3ab9c42d3aa6e9972028c1e322cb67225fb6cef0674c4f223d6107dd9ab1", size = 402592, upload-time = "2023-10-15T21:35:28.013Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/f7/3c/b625a5f9cb8c83ecc8c3c3533b0d69401c8daa4ea5a2ee19b2b79d668434/countrycode-0.4.0-py3-none-any.whl", hash = "sha256:6ee83bc9dd5f258bd60579d57e4ba81dd4f17371e1aeb454f4735ea57202e89e", size = 399592, upload-time = "2023-10-15T21:35:26.167Z" },
 ]
 
 [[package]]
@@ -2531,16 +2542,16 @@ wheels = [
 
 [[package]]
 name = "polars"
-version = "1.28.0"
+version = "1.29.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/be/7c/5c0116e6c0a985d580b33f09a97281b621e4719fc759c5c5032652cd1fae/polars-1.28.0.tar.gz", hash = "sha256:5111bb3a3c11750e1cd737fded8105da086ac843390599656b90c36346416235", size = 4560732, upload-time = "2025-04-26T09:02:11.872Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/0b/92/8d0e80fef779a392b1a736b554ffba62403026bad7df8a9de8b61dce018f/polars-1.29.0.tar.gz", hash = "sha256:d2acb71fce1ff0ea76db5f648abd91a7a6c460fafabce9a2e8175184efa00d02", size = 4582973, upload-time = "2025-04-30T20:57:22.46Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/93/2b/ec47f9b476b3d9f61804d524abd37cfc50c5c00664a0850d26624e979ac7/polars-1.28.0-cp39-abi3-macosx_10_12_x86_64.whl", hash = "sha256:5b081cfcf31adfd84933b67f656c7f3ef6c8dbecef7a927f523ca007cbfc0b6d", size = 34196108, upload-time = "2025-04-26T09:01:04.884Z" },
-    { url = "https://files.pythonhosted.org/packages/44/e3/8b4938cda03be4ea9763f5dfaade16809b22bd4cfdbbbc1aedece5542013/polars-1.28.0-cp39-abi3-macosx_11_0_arm64.whl", hash = "sha256:b8ee4fbf8926fd050871b1bf75399a12c57fb333f93745f2307baed7ab9389d7", size = 30949285, upload-time = "2025-04-26T09:01:09.794Z" },
-    { url = "https://files.pythonhosted.org/packages/c9/59/6320c1a533aaae8cb3b4d9f32c9b9463beb394ac69e0a919dd32b05bcded/polars-1.28.0-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:a904dd1dac6dd1f4515d94362f2d573f61c8e001a53922a3ab24f327b455cdad", size = 34801959, upload-time = "2025-04-26T09:01:13.242Z" },
-    { url = "https://files.pythonhosted.org/packages/8c/c0/c785fe21367fe468c61200c159fde635509d682953bc00b52699391e36a0/polars-1.28.0-cp39-abi3-manylinux_2_24_aarch64.whl", hash = "sha256:f5f5871cc7a28d2fd60c069792e4c982cbf5f9f144ff9d26a6bb46550977f3f9", size = 32035309, upload-time = "2025-04-26T09:01:16.854Z" },
-    { url = "https://files.pythonhosted.org/packages/cc/28/ba554e5681bd1b0a14191e59ac737dc16c01bdf74781b61fe392b75bc3be/polars-1.28.0-cp39-abi3-win_amd64.whl", hash = "sha256:7e1f528cd97f23c15f22ec673f1b0d59b6e2c27acf7837154084818472fb2881", size = 34954169, upload-time = "2025-04-26T09:01:20.799Z" },
-    { url = "https://files.pythonhosted.org/packages/25/0f/6ac05533c90988be13c86bc806f896758e04efe5434bf13e55b3cc89a704/polars-1.28.0-cp39-abi3-win_arm64.whl", hash = "sha256:d5bbf7e2bd01b832788a65bc74bc262c6fb3ee7af0483f0eca7c6fb0e7ea1d6d", size = 31259540, upload-time = "2025-04-26T09:01:24.827Z" },
+    { url = "https://files.pythonhosted.org/packages/e7/5f/b277179cfce1258fecf4ad73cf627f670be41fdf088727090f68ca9c96ff/polars-1.29.0-cp39-abi3-macosx_10_12_x86_64.whl", hash = "sha256:d053ee3217df31468caf2f5ddb9fd0f3a94fd42afdf7d9abe23d9d424adca02b", size = 34206809, upload-time = "2025-04-30T20:56:14.744Z" },
+    { url = "https://files.pythonhosted.org/packages/34/e7/634e5cb55ce8bef23ac8ad8e3834c9045f4b3cbdff1fb9e7826d864436e6/polars-1.29.0-cp39-abi3-macosx_11_0_arm64.whl", hash = "sha256:14131078e365eae5ccda3e67383cd43c0c0598d7f760bdf1cb4082566c5494ce", size = 31100055, upload-time = "2025-04-30T20:56:19.43Z" },
+    { url = "https://files.pythonhosted.org/packages/50/15/0e9072e410731980ebc567c60a0a5f02bc2183310e48704ef83682cdd54c/polars-1.29.0-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:54f6902da333f99208b8d27765d580ba0299b412787c0564275912122c228e40", size = 34828438, upload-time = "2025-04-30T20:56:22.839Z" },
+    { url = "https://files.pythonhosted.org/packages/69/c0/90fcaac5c95aa225b3899698289c0424d429ef72248b593f15294f95a35e/polars-1.29.0-cp39-abi3-manylinux_2_24_aarch64.whl", hash = "sha256:7a0ac6a11088279af4d715f4b58068835f551fa5368504a53401743006115e78", size = 32073830, upload-time = "2025-04-30T20:56:26.742Z" },
+    { url = "https://files.pythonhosted.org/packages/17/ed/e5e570e22a03549a3c5397035a006b2c6343856a9fd15cccb5db39bdfa0a/polars-1.29.0-cp39-abi3-win_amd64.whl", hash = "sha256:f5aac4656e58b1e12f9481950981ef68b5b0e53dd4903bd72472efd2d09a74c8", size = 34971841, upload-time = "2025-04-30T20:56:29.953Z" },
+    { url = "https://files.pythonhosted.org/packages/45/fd/9039f609d76b3ebb13777f289502a00b52709aea5c35aed01d1090ac142f/polars-1.29.0-cp39-abi3-win_arm64.whl", hash = "sha256:0c105b07b980b77fe88c3200b015bf4695e53185385f0f244c13e2d1027c7bbf", size = 31298689, upload-time = "2025-04-30T20:56:33.449Z" },
 ]
 
 [package.optional-dependencies]

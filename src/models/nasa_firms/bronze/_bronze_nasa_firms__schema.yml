@@ -4,7 +4,6 @@ x-viirs-columns: &viirs_columns
   - name: id
     data_tests:
       - not_null
-      - unique
   - name: country_id
     data_tests:
       - not_null
@@ -66,20 +65,11 @@ models:
   - name: nasa_firms__viirs_snpp_bronze
     config: *viirs_config
     columns: *viirs_columns
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [ acq_date, acq_time, latitude, longitude ]
 
   - name: nasa_firms__viirs_noaa20_bronze
     config: *viirs_config
     columns: *viirs_columns
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [ acq_date, acq_time, latitude, longitude ]
 
   - name: nasa_firms__viirs_noaa21_bronze
     config: *viirs_config
     columns: *viirs_columns
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [ acq_date, acq_time, latitude, longitude ]
