@@ -1,1 +1,0 @@
-dlt[duckdb,filesystem]>=1.10.0
