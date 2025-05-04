@@ -83,3 +83,43 @@ models:
       - name: adm2_pcode
       - name: adm3_en
       - name: adm3_pcode
+
+  - name: cchain__mapbox_health_facility_brgy_isochrones
+    config: *cchain_config
+    columns:
+      - name: id
+      - name: adm4_pcode
+      - name: date
+      - name: brgy_healthcenter_pop_reached_5min
+      - name: brgy_healthcenter_pop_reached_15min
+      - name: brgy_healthcenter_pop_reached_30min
+      - name: brgy_healthcenter_pop_reached_pct_5min
+      - name: brgy_healthcenter_pop_reached_pct_15min
+      - name: brgy_healthcenter_pop_reached_pct_30min
+      - name: hospital_pop_reached_5min
+      - name: hospital_pop_reached_15min
+      - name: hospital_pop_reached_30min
+      - name: hospital_pop_reached_pct_5min
+      - name: hospital_pop_reached_pct_15min
+      - name: hospital_pop_reached_pct_30min
+      - name: rhu_pop_reached_5min
+      - name: rhu_pop_reached_15min
+      - name: rhu_pop_reached_30min
+      - name: rhu_pop_reached_pct_5min
+      - name: rhu_pop_reached_pct_15min
+      - name: rhu_pop_reached_pct_30min
+
+  - name: cchain__disease_lgu_disaggregated_totals
+    config: *cchain_config
+    columns:
+      - name: id
+      - name: freq
+      - name: date
+      - name: adm3_pcode
+      - name: adm4_pcode
+      - name: disease_icd10_code
+      - name: disease_common_name
+      - name: sex
+      - name: age_group
+      - name: case_total
+      - name: death_total

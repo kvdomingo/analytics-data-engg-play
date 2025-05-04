@@ -15,3 +15,11 @@ sources:
         meta:
           dagster:
             asset_key: [ cchain__disease_pidsr_totals_raw ]
+      - name: cchain__disease_lgu_disaggregated_totals_raw
+        meta:
+          dagster:
+            asset_key: [ cchain__disease_lgu_disaggregated_totals_raw ]
+      - name: cchain__mapbox_health_facility_brgy_isochrones_raw
+        meta:
+          dagster:
+            asset_key: [ cchain__mapbox_health_facility_brgy_isochrones_raw ]

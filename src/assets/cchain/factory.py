@@ -11,8 +11,10 @@ from src.resources import RESOURCES, IOManager
 
 CCHAIN_DATASETS = [
     "climate_atmosphere",
+    "disease_lgu_disaggregated_totals",
     "disease_pidsr_totals",
     "location",
+    "mapbox_health_facility_brgy_isochrones",
 ]
 
 

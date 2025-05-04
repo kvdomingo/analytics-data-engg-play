@@ -1,11 +1,13 @@
 version: 2
 
+x-model-config: &model-config
+  meta:
+    dagster:
+      group: cchain
+
 models:
   - name: cchain__location_stg
-    config:
-      meta:
-        dagster:
-          group: cchain
+    config: *model-config
     columns:
       - name: adm1_en
         data_tests:
@@ -43,10 +45,7 @@ models:
               inclusive: false
 
   - name: cchain__climate_atmosphere_stg
-    config:
-      meta:
-        dagster:
-          group: cchain
+    config: *model-config
     columns:
       - name: uuid
         data_tests:
@@ -109,10 +108,7 @@ models:
               inclusive: true
 
   - name: cchain__disease_pidsr_totals_stg
-    config:
-      meta:
-        dagster:
-          group: cchain
+    config: *model-config
     columns:
       - name: uuid
         data_tests:
@@ -139,6 +135,197 @@ models:
         data_tests:
           - not_null
       - name: case_total
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true
+
+  - name: cchain__mapbox_health_facility_brgy_isochrones_stg
+    config: *model-config
+    columns:
+      - name: uuid
+        data_tests:
+          - not_null
+      - name: adm4_pcode
+        data_tests:
+          - not_null
+      - name: date
+        data_tests:
+          - not null
+      - name: freq
+        data_tests:
+          - not null
+          - accepted_values:
+              values: [ S ]
+      - name: brgy_healthcenter_pop_reached_5min
+        data_tests:
+          - not null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true
+      - name: brgy_healthcenter_pop_reached_15min
+        data_tests:
+          - not null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true
+      - name: brgy_healthcenter_pop_reached_30min
+        data_tests:
+          - not null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true
+      - name: brgy_healthcenter_pop_reached_pct_5min
+        data_tests:
+          - not null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 100
+              inclusive: true
+      - name: brgy_healthcenter_pop_reached_pct_15min
+        data_tests:
+          - not null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 100
+              inclusive: true
+      - name: brgy_healthcenter_pop_reached_pct_30min
+        data_tests:
+          - not null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 100
+              inclusive: true
+      - name: hospital_pop_reached_5min
+        data_tests:
+          - not null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true
+      - name: hospital_pop_reached_15min
+        data_tests:
+          - not null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true
+      - name: hospital_pop_reached_30min
+        data_tests:
+          - not null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true
+      - name: hospital_pop_reached_pct_5min
+        data_tests:
+          - not null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 100
+              inclusive: true
+      - name: hospital_pop_reached_pct_15min
+        data_tests:
+          - not null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 100
+              inclusive: true
+      - name: hospital_pop_reached_pct_30min
+        data_tests:
+          - not null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 100
+              inclusive: true
+      - name: rhu_pop_reached_5min
+        data_tests:
+          - not null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true
+      - name: rhu_pop_reached_15min
+        data_tests:
+          - not null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true
+      - name: rhu_pop_reached_30min
+        data_tests:
+          - not null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true
+      - name: rhu_pop_reached_pct_5min
+        data_tests:
+          - not null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 100
+              inclusive: true
+      - name: rhu_pop_reached_pct_15min
+        data_tests:
+          - not null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 100
+              inclusive: true
+      - name: rhu_pop_reached_pct_30min
+        data_tests:
+          - not null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 100
+              inclusive: true
+
+  - name: cchain__disease_lgu_disaggregated_totals_stg
+    config: *model-config
+    columns:
+      - name: uuid
+        data_tests:
+          - not_null
+      - name: freq
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [ D, W, M, Y ]
+      - name: date
+        data_tests:
+          - not_null
+      - name: source_name
+        data_tests:
+          - not_null
+      - name: source_filename
+        data_tests:
+          - not_null
+      - name: adm3_pcode
+        data_tests:
+          - not_null
+      - name: adm4_pcode
+        data_tests:
+          - not_null
+      - name: disease_icd10_code
+        data_tests:
+          - not_null
+      - name: disease_common_name
+        data_tests:
+          - not_null
+      - name: sex
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [ M, F ]
+      - name: age_group
+        data_tests:
+          - not_null
+          - accepted_values:
+              values:
+                - a
+      - name: case_total
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true
+      - name: death_total
         data_tests:
           - not_null
           - dbt_utils.accepted_range:
