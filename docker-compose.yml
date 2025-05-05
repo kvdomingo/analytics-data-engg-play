@@ -8,6 +8,24 @@ volumes:
   superset-db-data:
   superset-redis-data:
 
+x-common-env: &common_env
+  PYTHON_ENV: development
+  DAGSTER_HOME: /app
+  DBT_TARGET_PATH: /app/src/target
+  NASA_FIRMS_MAP_KEY: ${NASA_FIRMS_MAP_KEY}
+  MINIO_BUCKET: ${MINIO_BUCKET}
+  MINIO_ENDPOINT: ${MINIO_ENDPOINT}
+  MINIO_REGION: ${MINIO_REGION}
+  MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
+  MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
+  MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+  MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+  DATA_DB_USERNAME: postgres
+  DATA_DB_PASSWORD: password
+  DATA_DB_DATABASE: postgres
+  DATA_DB_HOST: postgres
+  DATA_DB_PORT: 5432
+
 services:
   dagster:
     build: .
@@ -15,26 +33,10 @@ services:
     restart: unless-stopped
     command:
       - >
-        uv sync;
+        uv sync --frozen;
         exec uv run dagster dev -h 0.0.0.0 -p 3030;
     init: true
-    environment:
-      PYTHON_ENV: development
-      DAGSTER_HOME: /app
-      DBT_TARGET_PATH: /app/src/target
-      NASA_FIRMS_MAP_KEY: ${NASA_FIRMS_MAP_KEY}
-      MINIO_BUCKET: ${MINIO_BUCKET}
-      MINIO_ENDPOINT: ${MINIO_ENDPOINT}
-      MINIO_REGION: ${MINIO_REGION}
-      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
-      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
-      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
-      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
-      DATA_DB_USERNAME: postgres
-      DATA_DB_PASSWORD: password
-      DATA_DB_DATABASE: postgres
-      DATA_DB_HOST: postgres
-      DATA_DB_PORT: 5432
+    environment: *common_env
     volumes:
       - .:/app
       - venv-data:/app/.venv
@@ -43,6 +45,24 @@ services:
     depends_on:
       dagster-db:
         condition: service_healthy
+
+  jupyter:
+    build: .
+    image: kvdomingo/ae-de-play
+    restart: unless-stopped
+    command:
+      - exec /app/.venv/bin/jupyter lab --no-browser --autoreload --allow-root --ip 0.0.0.0
+    environment:
+      <<: *common_env
+      JUPYTER_PORT: 8888
+    volumes:
+      - .:/app
+      - venv-data:/app/.venv
+    ports:
+      - "8888:8888"
+    depends_on:
+      dagster:
+        condition: service_started
 
   dagster-db:
     image: bitnami/postgresql:16.4.0-debian-12-r8

@@ -23,7 +23,7 @@ tasks:
 
   up:
     desc: Build and start containers
-    cmd: infisical run -- docker compose up --detach --build --remove-orphans
+    cmd: infisical run -- docker compose up --detach --build --remove-orphans {{ .CLI_ARGS }}
 
   stop:
     desc: Stop containers
