@@ -1,17 +1,22 @@
 # Analytics/Data Engineering Playground
 
-This repo is my playground for testing out analytics/data engineering tech and processes.
+This repo is my playground for testing out analytics/data engineering tech and processes using the modern data stack.
 
 ## Tech Stack
 
-- [Python 3.12](https://docs.python.org/3.12/)
-- [uv](https://docs.astral.sh/uv)
-- [Dagster](https://docs.dagster.io)
-- [Polars](https://docs.pola.rs)
-- [DuckDB](https://duckdb.org/docs/stable/)
-- [dbt](https://docs.getdbt.com/)
-- [Delta Lake](https://docs.delta.io/latest/delta-apidoc.html)
-- [Superset](https://superset.apache.org/docs/intro)
+- [Python 3.12](https://docs.python.org/3.12/) - primary programming language
+- [uv](https://docs.astral.sh/uv) - package/environment manager
+- [Dagster](https://docs.dagster.io) - workflow orchestrator
+- [Polars](https://docs.pola.rs) - dataframe library
+- [DuckDB](https://duckdb.org/docs/stable/) - file-based OLAP database
+- [dbt](https://docs.getdbt.com/) - data transformations & tests
+- [Delta Lake](https://docs.delta.io/latest/delta-apidoc.html) - open table format
+- [Superset](https://superset.apache.org/docs/intro) - business intelligence & dashboarding
+
+## Roadmap (WIP)
+
+- [Unity Catalog](https://docs.unitycatalog.io/) - data catalog
+- [Datahub](https://docs.datahub.com/docs/features) - metadata platform, data observability
 
 ## Local Setup
 
@@ -59,6 +64,7 @@ See [.env.example](./.env.example) for configurable environment variables.
 | MINIO_ROOT_USER     | MinIO root user username                            |
 | MINIO_ROOT_PASSWORD | MinIO root user password                            |
 | NASA_FIRMS_MAP_KEY  | Map Key for access to NASA FIRMS data               |
+| SUPERSET_SECRET_KEY | Secret key for Superset                             |
 
 ### Cleanup
 

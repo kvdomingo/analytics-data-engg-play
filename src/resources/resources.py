@@ -38,7 +38,13 @@ RESOURCES = {
     Resource.DBT.value: DbtCliResource(project_dir=settings.BASE_DIR),
     Resource.S3.value: _s3_resource,
     Resource.NASA_FIRMS_API.value: NasaFirmsApi(map_key=settings.NASA_FIRMS_MAP_KEY),
-    IOManager.DUCKDB.value: DuckDBPolarsIOManager(database=settings.DUCKDB_DATABASE),
+    IOManager.DUCKDB.value: DuckDBPolarsIOManager(
+        database=settings.DUCKDB_DATABASE,
+        connection_config={
+            "autoinstall_known_extensions": "true",
+            "autoload_known_extensions": "true",
+        },
+    ),
     IOManager.DELTALAKE.value: DeltaLakePolarsIOManager(
         path_prefix=[*settings.BASE_DIR.parts, "data", "lake"],
         table_config={

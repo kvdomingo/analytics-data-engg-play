@@ -2,7 +2,7 @@ from typing import Union
 
 from dagster import ConfigurableIOManager, InputContext, OutputContext
 from dagster_deltalake import AzureConfig, GcsConfig, LocalConfig, S3Config
-from deltalake import DeltaTable
+from deltalake import DeltaTable, write_deltalake
 from polars import DataFrame, from_arrow
 from pydantic import Field
 
@@ -15,25 +15,25 @@ class DeltaLakePolarsIOManager(ConfigurableIOManager):
     table_config: dict[str, str | None] = {}
 
     def _get_path(self, context: InputContext | OutputContext) -> str:
-        return "/".join([*self.path_prefix, *context.asset_key.path])
+        return "/".join([*self.path_prefix, context.step_key])
 
     def load_input(self, context: InputContext) -> DataFrame:
         return from_arrow(DeltaTable(self._get_path(context)).to_pyarrow_table())
 
     def handle_output(self, context: OutputContext, obj: DataFrame) -> None:
         if not DeltaTable.is_deltatable(self._get_path(context)):
-            DeltaTable.create(
+            write_deltalake(
                 self._get_path(context),
+                obj.limit(0).st.to_wkt(),
                 name="__".join(context.asset_key.path),
-                schema=obj.schema,
                 configuration=self.table_config,
-                storage_options=self.storage_config.model_dump(exclude={"provider"}),
+                storage_options=self.storage_config.str_dict(),
             )
 
         dt = DeltaTable(self._get_path(context))
         (
             dt.merge(
-                obj.to_arrow(),
+                obj.st.to_wkt().to_arrow(),
                 "src.id = dst.id",
                 source_alias="src",
                 target_alias="dst",

@@ -1,15 +1,18 @@
+from collections.abc import Mapping
 from datetime import date
-from functools import reduce
 
 import polars as pl
 from botocore.response import StreamingBody
 from dagster import (
+    AssetExecutionContext,
     MetadataValue,
+    MultiPartitionKey,
     TableColumn,
     TableRecord,
     TableSchema,
 )
 from dagster_aws.s3 import S3Resource
+from duckdb.duckdb import DuckDBPyConnection
 from mypy_boto3_s3 import S3Client
 
 
@@ -21,38 +24,6 @@ def get_csv_from_s3_datasets(path: str, s3: S3Resource) -> bytes:
     )
     body: StreamingBody = data.get("Body")
     return body.read()
-
-
-def cast_schema_types(df: pl.DataFrame, schema: pl.Struct) -> pl.DataFrame:
-    return df.with_columns(
-        **{name: pl.col(name).cast(dtype) for name, dtype in schema.to_schema().items()}
-    )
-
-
-def drop_columns_not_in_schema(df: pl.DataFrame, schema: pl.Struct) -> pl.DataFrame:
-    return df.select(schema.to_schema().keys())
-
-
-def add_missing_columns(df: pl.DataFrame, schema: pl.Struct) -> pl.DataFrame:
-    return df.with_columns(
-        **{
-            name: pl.lit(None).cast(dtype)
-            for name, dtype in schema.to_schema().items()
-            if name not in df.columns
-        }
-    )
-
-
-def schema_transforms(df: pl.DataFrame, schema: pl.Struct) -> pl.DataFrame:
-    return reduce(
-        lambda x, f: f(x, schema),
-        [
-            drop_columns_not_in_schema,
-            add_missing_columns,
-            cast_schema_types,
-        ],
-        df,
-    )
 
 
 def emit_standard_df_metadata(
@@ -75,3 +46,15 @@ def emit_standard_df_metadata(
             ),
         ),
     }
+
+
+def get_multi_partition_keys_from_context(
+    context: AssetExecutionContext,
+) -> Mapping[str, str]:
+    partition_keys: MultiPartitionKey = context.partition_key
+    return partition_keys.keys_by_dimension
+
+
+def init_duckdb(conn: DuckDBPyConnection):
+    conn.install_extension("spatial")
+    conn.load_extension("spatial")
