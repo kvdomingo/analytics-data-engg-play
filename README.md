@@ -2,7 +2,9 @@
 
 This repo is my playground for testing out analytics/data engineering tech and processes using the modern data stack.
 
-## Tech Stack
+## Current State
+
+### Tech Stack
 
 - [Python 3.12](https://docs.python.org/3.12/) - primary programming language
 - [uv](https://docs.astral.sh/uv) - package/environment manager
@@ -13,10 +15,26 @@ This repo is my playground for testing out analytics/data engineering tech and p
 - [Delta Lake](https://docs.delta.io/latest/delta-apidoc.html) - open table format
 - [Superset](https://superset.apache.org/docs/intro) - business intelligence & dashboarding
 
+### Features
+
+- centralized workflow orchestration, asset-based architecture, asset lineage visualization & incremental asset
+  materialization ℅ Dagster
+- data exploration through multiple modes ℅ Jupyter Notebook, Superset, DuckDB CLI
+- change data feed & time travel ℅ Delta Lake
+
 ## Roadmap (WIP)
 
+### Tech Stack
+
+- [dlt](https://dlthub.com/docs/intro) - data loading
 - [Unity Catalog](https://docs.unitycatalog.io/) - data catalog
 - [Datahub](https://docs.datahub.com/docs/features) - metadata platform, data observability
+- [LakeFS](https://docs.lakefs.io/) - data version control
+
+### Features
+
+- column- & row-level lineage visualization
+- data quality reports & visualization
 
 ## Local Setup
 
