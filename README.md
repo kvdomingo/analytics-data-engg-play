@@ -10,6 +10,7 @@ This repo is my playground for testing out analytics/data engineering tech and p
 - [Polars](https://docs.pola.rs)
 - [DuckDB](https://duckdb.org/docs/stable/)
 - [dbt](https://docs.getdbt.com/)
+- [Delta Lake](https://docs.delta.io/latest/delta-apidoc.html)
 - [Superset](https://superset.apache.org/docs/intro)
 
 ## Local Setup

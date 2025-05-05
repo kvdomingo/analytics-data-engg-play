@@ -2,14 +2,13 @@ from enum import Enum
 
 from dagster_aws.s3 import S3PickleIOManager, S3Resource
 from dagster_dbt import DbtCliResource
-from dagster_deltalake import S3Config, WriteMode
-from dagster_deltalake.config import ClientConfig
-from dagster_deltalake_polars import DeltaLakePolarsIOManager
+from dagster_deltalake import LocalConfig
 from dagster_duckdb import DuckDBResource
 from dagster_duckdb_polars import DuckDBPolarsIOManager
 
 from src.settings import settings
 
+from .io_managers.deltalake import DeltaLakePolarsIOManager
 from .nasa_firms_api import NasaFirmsApi
 
 
@@ -41,17 +40,12 @@ RESOURCES = {
     Resource.NASA_FIRMS_API.value: NasaFirmsApi(map_key=settings.NASA_FIRMS_MAP_KEY),
     IOManager.DUCKDB.value: DuckDBPolarsIOManager(database=settings.DUCKDB_DATABASE),
     IOManager.DELTALAKE.value: DeltaLakePolarsIOManager(
-        root_uri=f"s3a://{settings.MINIO_BUCKET}",
-        mode=WriteMode.append,
-        storage_options=S3Config(
-            endpoint=settings.MINIO_ENDPOINT,
-            access_key_id=settings.MINIO_ACCESS_KEY,
-            secret_access_key=settings.MINIO_SECRET_KEY,
-            bucket=settings.MINIO_BUCKET,
-            region=settings.MINIO_REGION,
-            allow_unsafe_rename=True,
-        ),
-        client_options=ClientConfig(allow_http=True),
+        path_prefix=[*settings.BASE_DIR.parts, "data", "lake"],
+        table_config={
+            "delta.enableChangeDataFeed": "true",
+            "delta.logRetentionDuration": "interval 1000000000 weeks",
+        },
+        storage_config=LocalConfig(),
     ),
     IOManager.S3.value: S3PickleIOManager(
         s3_resource=_s3_resource,
