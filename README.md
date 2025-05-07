@@ -20,7 +20,8 @@ This repo is my playground for testing out analytics/data engineering tech and p
 
 - centralized workflow orchestration, asset-based architecture, asset lineage visualization & incremental asset
   materialization ℅ Dagster
-- data exploration through multiple modes ℅ Jupyter Notebook, Superset, DuckDB CLI
+- data transformations & quality checks ℅ dbt
+- data exploration through multiple modes ℅ Jupyter Notebook, Superset, DuckDB CLI, Evidence
 - change data feed & time travel ℅ Delta Lake
 
 ## Roadmap (WIP)
@@ -176,3 +177,7 @@ the DuckDB CLI, spin up a Jupyter notebook, or use Apache Superset.
 11. Navigate to SQL > SQL Lab.
 12. On the left sidebar, select **DuckDB** as the database, and **duck.public** as the schema.
 13. Start querying the data.
+
+#### Evidence
+
+1. Open the Evidence UI at `http://localhost:3000`.
