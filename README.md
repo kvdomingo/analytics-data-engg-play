@@ -14,6 +14,7 @@ This repo is my playground for testing out analytics/data engineering tech and p
 - [dbt](https://docs.getdbt.com/) - data transformations & tests
 - [Delta Lake](https://docs.delta.io/latest/delta-apidoc.html) - open table format
 - [Superset](https://superset.apache.org/docs/intro) - business intelligence & dashboarding
+- [Evidence](https://docs.evidence.dev/) - lightweight business intelligence-as-code
 
 ### Features
 
@@ -104,7 +105,7 @@ task stop
   - Requires `MINIO_*` environment variables.
   - This project expects the dataset CSVs to be located in a single directory named `project-cchain` in a bucket named
     `datasets`. This value is not configurable as of now, but can be changed in
-    the [source](./src/internal/core.py#L19).
+    the [source](./src/lib/core.py#L19).
 
 ### Materializing local data lake
 

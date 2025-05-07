@@ -31,6 +31,10 @@ models:
       materialized: view
       +docs:
         node_color: silver
+    marts:
+      materialized: view
+      +docs:
+        node_color: royalblue
     +docs:
       node_color: gold
 

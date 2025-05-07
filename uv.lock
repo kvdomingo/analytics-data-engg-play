@@ -49,6 +49,7 @@ dependencies = [
     { name = "dagster-deltalake" },
     { name = "dagster-deltalake-polars" },
     { name = "dagster-duckdb-polars" },
+    { name = "dagster-evidence" },
     { name = "dagster-obstore" },
     { name = "dagster-polars" },
     { name = "dagster-postgres" },
@@ -99,6 +100,7 @@ requires-dist = [
     { name = "dagster-deltalake", specifier = ">=0.26.9,<0.27" },
     { name = "dagster-deltalake-polars", specifier = ">=0.26.9,<0.27" },
     { name = "dagster-duckdb-polars", specifier = ">=0.26.9,<0.27" },
+    { name = "dagster-evidence", specifier = ">=0.1.5" },
     { name = "dagster-obstore", specifier = ">=0.2.3" },
     { name = "dagster-polars", specifier = ">=0.26.9,<0.27" },
     { name = "dagster-postgres", specifier = ">=0.26.9,<0.27" },
@@ -720,6 +722,18 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/cf/7a/4e1ca0fc03bf10c0f99a978b928a1293ad95741377251994fc4b7202ec8d/dagster-duckdb-polars-0.26.10.tar.gz", hash = "sha256:5831892a140a338b9fdf958c37f425aa00488ba24e1aeb049a9e5da43a22d77c", size = 7906, upload-time = "2025-04-11T19:43:55.159Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/a5/71/6e16e4ccb53f0451641d38fa87dcc52835dd698c1e53f27391c46c99ffe4/dagster_duckdb_polars-0.26.10-py3-none-any.whl", hash = "sha256:426a2335432f46cfd9677122d7227955adfcbdbbe8566987de5549864a502a56", size = 8573, upload-time = "2025-04-11T19:43:54.251Z" },
+]
+
+[[package]]
+name = "dagster-evidence"
+version = "0.1.5"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "dagster" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/d5/da/c4f0154e938cfbab982146317f8d810a5eec6de98403436d47f531dd61d6/dagster_evidence-0.1.5.tar.gz", hash = "sha256:2407df22a6d03b572e07ee1d294176778ff968b7d9a5c8e50cba1834ebf676c7", size = 2479, upload-time = "2025-04-09T21:38:35.718Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ec/49/dea7e2e98f791e167faa115ff61f147afacc24a33b8f4f9b165ed2f57b84/dagster_evidence-0.1.5-py3-none-any.whl", hash = "sha256:ea381a1da8e7e967decd65a7b2ebf284cb1477a6d560dc589548722347eb28bd", size = 3255, upload-time = "2025-04-09T21:38:34.663Z" },
 ]
 
 [[package]]

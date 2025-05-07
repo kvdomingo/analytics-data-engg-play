@@ -3,7 +3,7 @@ import polars as pl
 from dagster_aws.s3 import S3Resource
 
 from src.dbt_project import dbt_project
-from src.internal.core import (
+from src.lib.core import (
     emit_standard_df_metadata,
     get_csv_from_s3_datasets,
 )

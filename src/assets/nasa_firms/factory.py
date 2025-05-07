@@ -6,7 +6,7 @@ import polars_st as st
 from dagster_duckdb import DuckDBResource
 
 from src.dbt_project import dbt_project
-from src.internal.core import (
+from src.lib.core import (
     emit_standard_df_metadata,
     get_multi_partition_keys_from_context,
     init_duckdb,

@@ -8,6 +8,14 @@ volumes:
   superset-db-data:
   superset-redis-data:
 
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.1.0/26
+          gateway: 172.20.1.1
+
 x-common-env: &common_env
   PYTHON_ENV: development
   DAGSTER_HOME: /app
@@ -126,3 +134,20 @@ services:
       - db-data:/var/lib/postgresql/data
     ports:
       - '5432:5432'
+
+  evidence:
+    image: node:lts-bookworm
+    restart: unless-stopped
+    init: true
+    entrypoint:
+      - /bin/sh
+      - -eu
+      - -c
+    command:
+      - npm install && exec npm run dev
+    working_dir: /app/evidence
+    volumes:
+      - ./evidence:/app/evidence
+      - ./data:/app/data
+    ports:
+      - '3000:3000'

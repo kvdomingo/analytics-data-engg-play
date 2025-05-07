@@ -1,0 +1,69 @@
+version: 2
+
+x-cchain-config: &cchain_config
+  meta:
+    dagster:
+      group: cchain
+
+models:
+  - name: cchain__climate_atmosphere_location
+    config: *cchain_config
+    columns:
+      - name: id
+      - name: date
+      - name: temperature_ave
+      - name: temperature_min
+      - name: temperature_max
+      - name: heat_index
+      - name: precipitation
+      - name: wind_speed
+      - name: relative_humidity
+      - name: solar_radiance
+      - name: uv_radiance
+      - name: adm1_en
+      - name: adm1_pcode
+      - name: adm2_en
+      - name: adm2_pcode
+      - name: adm3_en
+      - name: adm3_pcode
+
+  - name: cchain__disease_pidsr_location
+    config: *cchain_config
+    columns:
+      - name: id
+      - name: date
+      - name: adm3_pcode
+      - name: disease_icd10_code
+      - name: disease_common_name
+      - name: case_total
+      - name: adm1_en
+      - name: adm1_pcode
+      - name: adm2_en
+      - name: adm2_pcode
+      - name: adm3_en
+      - name: adm3_pcode
+
+  - name: cchain__disease_climate
+    config: *cchain_config
+    columns:
+      - name: disease_id
+      - name: climate_id
+      - name: date
+      - name: disease_icd10_code
+      - name: disease_common_name
+      - name: case_total
+      - name: temperature_ave
+      - name: temperature_min
+      - name: temperature_max
+      - name: heat_index
+      - name: precipitation
+      - name: wind_speed
+      - name: relative_humidity
+      - name: solar_radiance
+      - name: uv_radiance
+      - name: adm1_en
+      - name: adm1_pcode
+      - name: adm2_en
+      - name: adm2_pcode
+      - name: adm3_en
+      - name: adm3_pcode
