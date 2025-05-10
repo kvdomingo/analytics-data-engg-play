@@ -152,125 +152,125 @@ models:
           - not_null
       - name: date
         data_tests:
-          - not null
+          - not_null
       - name: freq
         data_tests:
-          - not null
+          - not_null
           - accepted_values:
               values: [ S ]
       - name: brgy_healthcenter_pop_reached_5min
         data_tests:
-          - not null
+          - not_null
           - dbt_utils.accepted_range:
               min_value: 0
               inclusive: true
       - name: brgy_healthcenter_pop_reached_15min
         data_tests:
-          - not null
+          - not_null
           - dbt_utils.accepted_range:
               min_value: 0
               inclusive: true
       - name: brgy_healthcenter_pop_reached_30min
         data_tests:
-          - not null
+          - not_null
           - dbt_utils.accepted_range:
               min_value: 0
               inclusive: true
       - name: brgy_healthcenter_pop_reached_pct_5min
         data_tests:
-          - not null
+          - not_null
           - dbt_utils.accepted_range:
               min_value: 0
               max_value: 100
               inclusive: true
       - name: brgy_healthcenter_pop_reached_pct_15min
         data_tests:
-          - not null
+          - not_null
           - dbt_utils.accepted_range:
               min_value: 0
               max_value: 100
               inclusive: true
       - name: brgy_healthcenter_pop_reached_pct_30min
         data_tests:
-          - not null
+          - not_null
           - dbt_utils.accepted_range:
               min_value: 0
               max_value: 100
               inclusive: true
       - name: hospital_pop_reached_5min
         data_tests:
-          - not null
+          - not_null
           - dbt_utils.accepted_range:
               min_value: 0
               inclusive: true
       - name: hospital_pop_reached_15min
         data_tests:
-          - not null
+          - not_null
           - dbt_utils.accepted_range:
               min_value: 0
               inclusive: true
       - name: hospital_pop_reached_30min
         data_tests:
-          - not null
+          - not_null
           - dbt_utils.accepted_range:
               min_value: 0
               inclusive: true
       - name: hospital_pop_reached_pct_5min
         data_tests:
-          - not null
+          - not_null
           - dbt_utils.accepted_range:
               min_value: 0
               max_value: 100
               inclusive: true
       - name: hospital_pop_reached_pct_15min
         data_tests:
-          - not null
+          - not_null
           - dbt_utils.accepted_range:
               min_value: 0
               max_value: 100
               inclusive: true
       - name: hospital_pop_reached_pct_30min
         data_tests:
-          - not null
+          - not_null
           - dbt_utils.accepted_range:
               min_value: 0
               max_value: 100
               inclusive: true
       - name: rhu_pop_reached_5min
         data_tests:
-          - not null
+          - not_null
           - dbt_utils.accepted_range:
               min_value: 0
               inclusive: true
       - name: rhu_pop_reached_15min
         data_tests:
-          - not null
+          - not_null
           - dbt_utils.accepted_range:
               min_value: 0
               inclusive: true
       - name: rhu_pop_reached_30min
         data_tests:
-          - not null
+          - not_null
           - dbt_utils.accepted_range:
               min_value: 0
               inclusive: true
       - name: rhu_pop_reached_pct_5min
         data_tests:
-          - not null
+          - not_null
           - dbt_utils.accepted_range:
               min_value: 0
               max_value: 100
               inclusive: true
       - name: rhu_pop_reached_pct_15min
         data_tests:
-          - not null
+          - not_null
           - dbt_utils.accepted_range:
               min_value: 0
               max_value: 100
               inclusive: true
       - name: rhu_pop_reached_pct_30min
         data_tests:
-          - not null
+          - not_null
           - dbt_utils.accepted_range:
               min_value: 0
               max_value: 100

@@ -61,5 +61,5 @@ SELECT
     d.adm3_en,
     d.adm3_pcode
 FROM disease_agg AS d
-LEFT JOIN climate_agg AS c ON d.date = c.date AND d.adm3_pcode = c.adm3_pcode
-ORDER BY date, d.disease_icd10_code, d.adm3_pcode
+LEFT JOIN climate_agg AS c USING (date, adm3_pcode)
+ORDER BY date, d.disease_icd10_code, adm3_pcode
