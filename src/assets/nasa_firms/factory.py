@@ -62,8 +62,11 @@ def build_viirs_delta_asset(upstream_asset_key: str):
         name=f"{upstream_asset_key}_delta",
         group_name="nasa_firms",
         io_manager_key=IOManager.DELTALAKE.value,
-        kinds={"polars", "deltalake"},
+        kinds={"polars", "deltalake", "googlecloud"},
         partitions_def=country_daily_partitions_def,
+        metadata={
+            "partition_by": ["country_id", "date"],
+        },
         deps=[upstream_asset_key],
     )
     def output_delta(
@@ -81,7 +84,8 @@ def build_viirs_delta_asset(upstream_asset_key: str):
                         id,
                         country_id,
                         ST_AsText(geometry) AS geometry,
-                        timestamp,
+                        "date",
+                        "timestamp",
                         bright_ti4,
                         bright_ti5,
                         scan,

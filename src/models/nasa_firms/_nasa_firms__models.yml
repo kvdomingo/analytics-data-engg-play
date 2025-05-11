@@ -10,6 +10,7 @@ models:
       - name: id
       - name: country_id
       - name: geometry
+      - name: date
       - name: timestamp
       - name: bright_ti4
       - name: bright_ti5

@@ -48,6 +48,7 @@ added_geometry AS (
     SELECT
         id,
         country_id,
+        acq_date::DATE AS date,
         (acq_date::TEXT || ' ' || acq_time::TEXT)::TIMESTAMP AS timestamp,
         bright_ti4,
         bright_ti5,

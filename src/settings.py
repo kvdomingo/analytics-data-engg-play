@@ -20,6 +20,9 @@ class Settings(BaseSettings):
     MINIO_SECRET_KEY: str
     MINIO_BUCKET: str
 
+    GCS_BUCKET: str
+    GCS_APPLICATION_CREDENTIALS: str
+
     @computed_field
     @property
     def IS_PRODUCTION(self) -> bool:

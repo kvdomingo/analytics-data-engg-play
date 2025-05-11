@@ -2,7 +2,7 @@ from enum import Enum
 
 from dagster_aws.s3 import S3PickleIOManager, S3Resource
 from dagster_dbt import DbtCliResource
-from dagster_deltalake import LocalConfig
+from dagster_deltalake import GcsConfig
 from dagster_duckdb import DuckDBResource
 from dagster_duckdb_polars import DuckDBPolarsIOManager
 
@@ -46,12 +46,16 @@ RESOURCES = {
         },
     ),
     IOManager.DELTALAKE.value: DeltaLakePolarsIOManager(
-        path_prefix=[*settings.BASE_DIR.parts, "data", "lake"],
+        path_prefix=[settings.GCS_BUCKET],
         table_config={
             "delta.enableChangeDataFeed": "true",
             "delta.logRetentionDuration": "interval 1000000000 weeks",
         },
-        storage_config=LocalConfig(),
+        storage_config=GcsConfig(
+            provider="gcs",
+            bucket=settings.GCS_BUCKET,
+            application_credentials=settings.GCS_APPLICATION_CREDENTIALS,
+        ),
     ),
     IOManager.S3.value: S3PickleIOManager(
         s3_resource=_s3_resource,

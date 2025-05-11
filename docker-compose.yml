@@ -28,6 +28,8 @@ x-common-env: &common_env
   MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
   MINIO_ROOT_USER: ${MINIO_ROOT_USER}
   MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+  GCS_BUCKET: ${GCS_BUCKET}
+  GCS_APPLICATION_CREDENTIALS: /home/dagster/.config/gcloud
   DATA_DB_USERNAME: postgres
   DATA_DB_PASSWORD: password
   DATA_DB_DATABASE: postgres
@@ -47,6 +49,7 @@ services:
     environment: *common_env
     volumes:
       - .:/app
+      - ${HOME}/.config/gcloud:/home/dagster/.config/gcloud:ro
       - venv-data:/app/.venv
     ports:
       - "3030:3030"
@@ -59,7 +62,7 @@ services:
     image: kvdomingo/ae-de-play
     restart: unless-stopped
     command:
-      - exec /app/.venv/bin/jupyter lab --no-browser --autoreload --allow-root --ip 0.0.0.0
+      - exec /app/.venv/bin/jupyter lab --no-browser --autoreload --ip 0.0.0.0
     environment:
       <<: *common_env
       JUPYTER_PORT: 8888

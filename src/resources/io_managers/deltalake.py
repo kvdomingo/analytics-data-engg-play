@@ -4,6 +4,7 @@ from dagster import ConfigurableIOManager, InputContext, OutputContext
 from dagster_deltalake import AzureConfig, GcsConfig, LocalConfig, S3Config
 from deltalake import DeltaTable, write_deltalake
 from polars import DataFrame, from_arrow
+from polars_st import GeoDataFrame
 from pydantic import Field
 
 
@@ -15,12 +16,12 @@ class DeltaLakePolarsIOManager(ConfigurableIOManager):
     table_config: dict[str, str | None] = {}
 
     def _get_path(self, context: InputContext | OutputContext) -> str:
-        return "/".join([*self.path_prefix, context.step_key])
+        return f"gs://{'/'.join([*self.path_prefix, context.step_key])}"
 
     def load_input(self, context: InputContext) -> DataFrame:
         return from_arrow(DeltaTable(self._get_path(context)).to_pyarrow_table())
 
-    def handle_output(self, context: OutputContext, obj: DataFrame) -> None:
+    def handle_output(self, context: OutputContext, obj: GeoDataFrame) -> None:
         if not DeltaTable.is_deltatable(self._get_path(context)):
             write_deltalake(
                 self._get_path(context),
@@ -28,6 +29,7 @@ class DeltaLakePolarsIOManager(ConfigurableIOManager):
                 name="__".join(context.asset_key.path),
                 configuration=self.table_config,
                 storage_options=self.storage_config.str_dict(),
+                partition_by=context.metadata.get("partition_by", []),
             )
 
         dt = DeltaTable(self._get_path(context))

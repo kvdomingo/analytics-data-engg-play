@@ -10,6 +10,6 @@ SELECT *
 FROM {{ ref('nasa_firms__viirs_silver') }}
 {% if is_incremental() %}
 WHERE
-    timestamp::DATE = '{{ var('date') }}'::DATE
+    date = '{{ var('date') }}'::DATE
     AND country_id = '{{ var('country') }}'
 {% endif %}
