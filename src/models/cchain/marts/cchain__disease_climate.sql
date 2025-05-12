@@ -39,6 +39,7 @@ climate_agg AS (
 )
 
 SELECT
+    {{ dbt_utils.generate_surrogate_key(['disease_id', 'climate_id']) }} AS id,
     d.disease_id,
     c.climate_id,
     date,

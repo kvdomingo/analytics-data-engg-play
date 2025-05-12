@@ -141,6 +141,7 @@ services:
   evidence:
     image: node:lts-bookworm
     restart: unless-stopped
+    user: '1000:1000'
     init: true
     entrypoint:
       - /bin/sh

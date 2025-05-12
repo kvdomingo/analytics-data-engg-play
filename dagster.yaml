@@ -16,8 +16,13 @@ run_launcher:
 
 run_coordinator:
   module: dagster.core.run_coordinator
-  class: QueuedRunCoordinator
-  config:
+  class: DefaultRunCoordinator
+
+concurrency:
+  pools:
+    granularity: run
+    default_limit: 1
+  runs:
     max_concurrent_runs: 4
 
 compute_logs:

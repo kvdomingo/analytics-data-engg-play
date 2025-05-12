@@ -68,6 +68,7 @@ def build_viirs_delta_asset(upstream_asset_key: str):
             "partition_by": ["country_id", "date"],
         },
         deps=[upstream_asset_key],
+        pool="deltalake",
     )
     def output_delta(
         context: dg.AssetExecutionContext,

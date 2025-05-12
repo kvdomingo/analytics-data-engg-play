@@ -1,23 +1,4 @@
 SELECT
-    uuid AS id,
-    adm4_pcode,
-    date,
-    brgy_healthcenter_pop_reached_5min,
-    brgy_healthcenter_pop_reached_15min,
-    brgy_healthcenter_pop_reached_30min,
-    brgy_healthcenter_pop_reached_pct_5min,
-    brgy_healthcenter_pop_reached_pct_15min,
-    brgy_healthcenter_pop_reached_pct_30min,
-    hospital_pop_reached_5min,
-    hospital_pop_reached_15min,
-    hospital_pop_reached_30min,
-    hospital_pop_reached_pct_5min,
-    hospital_pop_reached_pct_15min,
-    hospital_pop_reached_pct_30min,
-    rhu_pop_reached_5min,
-    rhu_pop_reached_15min,
-    rhu_pop_reached_30min,
-    rhu_pop_reached_pct_5min,
-    rhu_pop_reached_pct_15min,
-    rhu_pop_reached_pct_30min
+    * EXCLUDE (uuid),
+    uuid AS id
 FROM {{ ref('cchain__mapbox_health_facility_brgy_isochrones_stg') }}

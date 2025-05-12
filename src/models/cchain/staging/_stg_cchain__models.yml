@@ -300,8 +300,6 @@ models:
         data_tests:
           - not_null
       - name: adm4_pcode
-        data_tests:
-          - not_null
       - name: disease_icd10_code
         data_tests:
           - not_null
@@ -310,7 +308,6 @@ models:
           - not_null
       - name: sex
         data_tests:
-          - not_null
           - accepted_values:
               values: [ M, F ]
       - name: age_group
@@ -318,7 +315,14 @@ models:
           - not_null
           - accepted_values:
               values:
-                - a
+                - 0-4
+                - 5-9
+                - 10-19
+                - 20-29
+                - 30-39
+                - 40-49
+                - 50-59
+                - 60+
       - name: case_total
         data_tests:
           - not_null

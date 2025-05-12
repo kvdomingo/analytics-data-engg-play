@@ -46,6 +46,7 @@ models:
   - name: cchain__disease_climate
     config: *cchain_config
     columns:
+      - name: id
       - name: disease_id
       - name: climate_id
       - name: date

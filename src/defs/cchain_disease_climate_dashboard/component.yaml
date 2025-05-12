@@ -3,10 +3,10 @@ type: dagster_evidence.EvidenceProject
 attributes:
   project_path: ../../../evidence
   asset:
-    key: cchain__disease_climate_dashboard
-    group_name: cchain
+    key: evidence_dashboard
     deps:
       - cchain__disease_climate
+      - nasa_firms__viirs
     kinds:
       - duckdb
       - evidence
