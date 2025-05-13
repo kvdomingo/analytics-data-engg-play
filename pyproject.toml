@@ -45,6 +45,7 @@ dependencies = [
     "loguru>=0.7.3",
     "countrycode>=0.4.0",
     "dagster-evidence>=0.1.5",
+    "roman>=5.0",
 ]
 
 [dependency-groups]

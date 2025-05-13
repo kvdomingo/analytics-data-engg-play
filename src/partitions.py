@@ -4,9 +4,11 @@ from zoneinfo import ZoneInfo
 from asyncpg.pgproto.pgproto import timedelta
 from dagster import (
     DailyPartitionsDefinition,
+    DynamicPartitionsDefinition,
     MultiPartitionsDefinition,
     StaticPartitionsDefinition,
 )
+from roman import toRoman
 
 from src.settings import settings
 
@@ -53,3 +55,19 @@ country_daily_partitions_def = MultiPartitionsDefinition(
         "date": daily_partitions_def,
     }
 )
+
+ph_regions_partitions_def = StaticPartitionsDefinition(
+    [
+        "National Capital Region",
+        "Cordillera Administrative Region",
+        *[f"Region {toRoman(r)}" for r in range(1, 4)],
+        "Region IV-A",
+        "Region IV-B",
+        *[f"Region {toRoman(r)}" for r in range(5, 14)],
+        "NIR",
+        "BARMM",
+        "OAV",
+    ]
+)
+
+election_returns_batch_partitions_def = DynamicPartitionsDefinition()
