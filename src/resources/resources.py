@@ -41,8 +41,8 @@ RESOURCES = {
     Resource.DBT.value: DbtCliResource(project_dir=settings.BASE_DIR),
     Resource.S3.value: _s3_resource,
     Resource.NASA_FIRMS_API.value: NasaFirmsApi(map_key=settings.NASA_FIRMS_MAP_KEY),
-    Resource.GMA_METADATA_API.value: GmaApi(base_url="https://e25vh-cf.gmanetwork.com"),
-    Resource.GMA_DATA_API.value: GmaApi(base_url="https://e25d-cf.gmanetwork.com"),
+    Resource.GMA_METADATA_API.value: GmaApi(base_url="https://e25d-cf.gmanetwork.com"),
+    Resource.GMA_DATA_API.value: GmaApi(base_url="https://e25vh-cf.gmanetwork.com"),
     IOManager.DUCKDB.value: DuckDBPolarsIOManager(
         database=settings.DUCKDB_DATABASE,
         connection_config={

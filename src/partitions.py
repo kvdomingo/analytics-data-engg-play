@@ -71,3 +71,10 @@ ph_regions_partitions_def = StaticPartitionsDefinition(
 )
 
 election_returns_batch_partitions_def = DynamicPartitionsDefinition(name="er_batch")
+
+ph_region_batch_partitions_def = MultiPartitionsDefinition(
+    partitions_defs={
+        "region": ph_regions_partitions_def,
+        "batch": election_returns_batch_partitions_def,
+    }
+)

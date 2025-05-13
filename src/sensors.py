@@ -7,10 +7,8 @@ from src.resources.gma_api import GmaApi
 
 
 @dg.sensor(minimum_interval_seconds=30)
-def latest_er_batch_sensor(
-    context: dg.SensorEvaluationContext, gma_metadata_api: GmaApi
-):
-    with gma_metadata_api.get_client() as client:
+def latest_er_batch_sensor(context: dg.SensorEvaluationContext, gma_data_api: GmaApi):
+    with gma_data_api.get_client() as client:
         res = client.get("/batch/latest_batch.json")
         res.raise_for_status()
 

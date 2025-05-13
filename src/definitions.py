@@ -15,6 +15,7 @@ from src.assets.nasa_firms.factory import (
     build_viirs_delta_asset,
     build_viirs_raw_asset,
 )
+from src.assets.ph_mte25.assets import build_ph_mte25_raw_asset
 from src.resources import RESOURCES
 from src.sensors import latest_er_batch_sensor
 
@@ -23,6 +24,7 @@ defs = Definitions.merge(
     *[build_cchain_delta_asset(key) for key in CCHAIN_UPSTREAM_KEYS],
     *[build_viirs_raw_asset(code) for code in SATELLITE_CODES],
     *[build_viirs_delta_asset(key) for key in NASA_FIRMS_UPSTREAM_KEYS],
+    *[build_ph_mte25_raw_asset(cat) for cat in ["senator", "party"]],
     Definitions(
         assets=[
             *load_assets_from_package_module(dbt_assets),
