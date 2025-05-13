@@ -17,12 +17,14 @@ RUN apt-get update && \
 
 ADD https://deb.nodesource.com/setup_22.x nodesource_setup.sh
 
+VOLUME [ "/app/.venv" ]
+
 SHELL [ "/bin/bash", "-euxo", "pipefail", "-c" ]
 RUN chmod +x /tmp/nodesource_setup.sh && \
     /tmp/nodesource_setup.sh && \
     apt-get install -y --no-install-recommends nodejs && \
     useradd --uid 1000 --shell /bin/bash --user-group --create-home dagster && \
-    mkdir /app && \
+    mkdir -p /app/.venv && \
     mkdir -p /home/dagster/.tmp && \
     chown -R 1000:1000 /app
 

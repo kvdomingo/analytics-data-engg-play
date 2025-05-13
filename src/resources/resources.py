@@ -8,6 +8,7 @@ from dagster_duckdb_polars import DuckDBPolarsIOManager
 
 from src.settings import settings
 
+from .gma_api import GmaApi
 from .io_managers.deltalake import DeltaLakePolarsIOManager
 from .nasa_firms_api import NasaFirmsApi
 
@@ -23,6 +24,8 @@ class Resource(Enum):
     DBT = "dbt"
     S3 = "s3"
     NASA_FIRMS_API = "nasa_firms_api"
+    GMA_DATA_API = "gma_data_api"
+    GMA_METADATA_API = "gma_metadata_api"
 
 
 _s3_resource = S3Resource(
@@ -38,6 +41,8 @@ RESOURCES = {
     Resource.DBT.value: DbtCliResource(project_dir=settings.BASE_DIR),
     Resource.S3.value: _s3_resource,
     Resource.NASA_FIRMS_API.value: NasaFirmsApi(map_key=settings.NASA_FIRMS_MAP_KEY),
+    Resource.GMA_METADATA_API.value: GmaApi(base_url="https://e25vh-cf.gmanetwork.com"),
+    Resource.GMA_DATA_API.value: GmaApi(base_url="https://e25d-cf.gmanetwork.com"),
     IOManager.DUCKDB.value: DuckDBPolarsIOManager(
         database=settings.DUCKDB_DATABASE,
         connection_config={

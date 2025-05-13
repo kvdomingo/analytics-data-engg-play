@@ -16,6 +16,7 @@ from src.assets.nasa_firms.factory import (
     build_viirs_raw_asset,
 )
 from src.resources import RESOURCES
+from src.sensors import latest_er_batch_sensor
 
 defs = Definitions.merge(
     *[build_cchain_raw_asset(dataset) for dataset in CCHAIN_DATASETS],
@@ -27,6 +28,7 @@ defs = Definitions.merge(
             *load_assets_from_package_module(dbt_assets),
         ],
         resources=RESOURCES,
+        sensors=[latest_er_batch_sensor],
     ),
     load_defs(defs_root=src.defs),
 )

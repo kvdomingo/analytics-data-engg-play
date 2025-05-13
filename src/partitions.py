@@ -70,4 +70,4 @@ ph_regions_partitions_def = StaticPartitionsDefinition(
     ]
 )
 
-election_returns_batch_partitions_def = DynamicPartitionsDefinition()
+election_returns_batch_partitions_def = DynamicPartitionsDefinition(name="er_batch")
