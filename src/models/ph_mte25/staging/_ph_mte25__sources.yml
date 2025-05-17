@@ -1,0 +1,13 @@
+version: 2
+
+sources:
+  - name: ae_de_play
+    tables:
+      - name: ph_mte25__senator_raw
+        meta:
+          dagster:
+            asset_key: [ ph_mte25__senator_raw ]
+      - name: ph_mte25__party_raw
+        meta:
+          dagster:
+            asset_key: [ ph_mte25__party_raw ]

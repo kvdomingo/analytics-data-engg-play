@@ -7,7 +7,7 @@ from dagster_dbt import (
 )
 
 from src.dbt_project import dbt_project
-from src.partitions import country_daily_partitions_def
+from src.partitions import country_daily_partitions_def, ph_region_batch_partitions_def
 
 
 @assets(manifest=dbt_project.manifest_path, select=f"fqn:{dbt_project.name}.cchain.*")
@@ -37,6 +37,32 @@ def nasa_firms__dbt_assets(context: dg.AssetExecutionContext, dbt: DbtCliResourc
                 "build",
                 "--vars",
                 json.dumps({"date": date, "country": country}),
+            ],
+            context=context,
+        )
+        .stream()
+        .fetch_row_counts()
+        .fetch_column_metadata()
+    )
+
+
+@assets(
+    manifest=dbt_project.manifest_path,
+    select=f"fqn:{dbt_project.name}.ph_mte25.*",
+    partitions_def=ph_region_batch_partitions_def,
+)
+def ph_mte25__dbt_assets(context: dg.AssetExecutionContext, dbt: DbtCliResource):
+    partition_keys: dg.MultiPartitionKey = context.partition_key
+    partition_keys_dims = partition_keys.keys_by_dimension
+    region = partition_keys_dims["region"]
+    batch = partition_keys_dims["batch"]
+
+    yield from (
+        dbt.cli(
+            [
+                "build",
+                "--vars",
+                json.dumps({"region": region, "batch": batch}),
             ],
             context=context,
         )

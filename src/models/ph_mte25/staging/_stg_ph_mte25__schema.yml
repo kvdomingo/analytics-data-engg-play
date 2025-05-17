@@ -1,0 +1,42 @@
+version: 2
+
+x-mte-columns: &mte_columns
+  - name: id
+  - name: name
+    data_tests:
+      - not_null
+  - name: vote_count
+    data_tests:
+      - not_null
+      - dbt_utils.accepted_range:
+          min_value: 0
+          inclusive: true
+  - name: party
+    data_tests:
+      - not_null
+  - name: region
+    data_tests:
+      - not_null
+  - name: batch
+    data_tests:
+      - not_null
+      - dbt_utils.accepted_range:
+          min_value: 1
+          inclusive: true
+  - name: timestamp
+    data_tests:
+      - not_null
+
+x-mte-config: &mte_config
+  meta:
+    dagster:
+      group: ph_mte25
+
+models:
+  - name: ph_mte25__senator_stg
+    config: *mte_config
+    columns: *mte_columns
+
+  - name: ph_mte25__party_stg
+    config: *mte_config
+    columns: *mte_columns

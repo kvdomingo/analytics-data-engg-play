@@ -1,3 +1,4 @@
+from datetime import timedelta
 from json import JSONDecodeError
 
 import dagster as dg
@@ -6,7 +7,7 @@ from src.partitions import election_returns_batch_partitions_def
 from src.resources.gma_api import GmaApi
 
 
-@dg.sensor(minimum_interval_seconds=30)
+@dg.sensor(minimum_interval_seconds=int(timedelta(minutes=5).total_seconds()))
 def latest_er_batch_sensor(context: dg.SensorEvaluationContext, gma_data_api: GmaApi):
     with gma_data_api.get_client() as client:
         res = client.get("/batch/latest_batch.json")

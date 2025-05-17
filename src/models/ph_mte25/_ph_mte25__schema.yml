@@ -1,0 +1,30 @@
+version: 2
+
+model:
+  - name: ph_mte25__senator
+    config:
+      meta:
+        dagster:
+          group: ph_mte25
+    columns:
+      - name: id
+      - name: name
+      - name: vote_count
+      - name: party
+      - name: region
+      - name: batch
+      - name: timestamp
+
+  - name: ph_mte25__party
+    config:
+      meta:
+        dagster:
+          group: ph_mte25
+    columns:
+      - name: id
+      - name: name
+      - name: vote_count
+      - name: party
+      - name: region
+      - name: batch
+      - name: timestamp
