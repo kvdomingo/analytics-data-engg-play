@@ -30,8 +30,8 @@ class Resource(Enum):
 
 _s3_resource = S3Resource(
     endpoint_url=settings.MINIO_ENDPOINT,
-    aws_access_key_id=settings.MINIO_ACCESS_KEY,
-    aws_secret_access_key=settings.MINIO_SECRET_KEY,
+    aws_access_key_id=settings.MINIO_ACCESS_KEY.get_secret_value(),
+    aws_secret_access_key=settings.MINIO_SECRET_KEY.get_secret_value(),
     region_name=settings.MINIO_REGION,
 )
 
@@ -40,7 +40,9 @@ RESOURCES = {
     Resource.DUCKDB.value: DuckDBResource(database=settings.DUCKDB_DATABASE),
     Resource.DBT.value: DbtCliResource(project_dir=settings.BASE_DIR),
     Resource.S3.value: _s3_resource,
-    Resource.NASA_FIRMS_API.value: NasaFirmsApi(map_key=settings.NASA_FIRMS_MAP_KEY),
+    Resource.NASA_FIRMS_API.value: NasaFirmsApi(
+        map_key=settings.NASA_FIRMS_MAP_KEY.get_secret_value()
+    ),
     Resource.GMA_METADATA_API.value: GmaApi(base_url="https://e25d-cf.gmanetwork.com"),
     Resource.GMA_DATA_API.value: GmaApi(base_url="https://e25vh-cf.gmanetwork.com"),
     IOManager.DUCKDB.value: DuckDBPolarsIOManager(
@@ -51,15 +53,15 @@ RESOURCES = {
         },
     ),
     IOManager.DELTALAKE.value: DeltaLakePolarsIOManager(
-        path_prefix=[settings.GCS_BUCKET],
+        path_prefix=[settings.GCS_BUCKET.get_secret_value()],
         table_config={
             "delta.enableChangeDataFeed": "true",
             "delta.logRetentionDuration": "interval 1000000000 weeks",
         },
         storage_config=GcsConfig(
             provider="gcs",
-            bucket=settings.GCS_BUCKET,
-            application_credentials=settings.GCS_APPLICATION_CREDENTIALS,
+            bucket=settings.GCS_BUCKET.get_secret_value(),
+            application_credentials=settings.GCS_APPLICATION_CREDENTIALS.get_secret_value(),
         ),
     ),
     IOManager.S3.value: S3PickleIOManager(

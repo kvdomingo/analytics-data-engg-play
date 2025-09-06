@@ -5,7 +5,7 @@ description = "Analytics & Data Engineering Playground"
 authors = [
     { name = "Kenneth V. Domingo", email = "hello@kvd.studio" }
 ]
-requires-python = "~=3.12"
+requires-python = "~=3.12.0"
 readme = "README.md"
 dependencies = [
     "dagster~=1.10.14",
@@ -46,6 +46,7 @@ dependencies = [
     "dagster-evidence>=0.1.5",
     "roman>=5.0",
     "fake-useragent>=2.2.0",
+    "instaloader>=4.14.2",
 ]
 
 [dependency-groups]

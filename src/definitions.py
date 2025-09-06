@@ -2,7 +2,10 @@ from dagster import Definitions, load_assets_from_package_module
 from dagster.components import load_defs
 
 import src.defs
-from src.assets import dbt as dbt_assets
+from src.assets import (
+    dbt as dbt_assets,
+    gigcal,
+)
 from src.assets.cchain.factory import (
     CCHAIN_DATASETS,
     UPSTREAM_KEYS as CCHAIN_UPSTREAM_KEYS,
@@ -28,6 +31,9 @@ defs = Definitions.merge(
     Definitions(
         assets=[
             *load_assets_from_package_module(dbt_assets),
+            *load_assets_from_package_module(
+                gigcal, group_name="gigcal", key_prefix="gigcal"
+            ),
         ],
         resources=RESOURCES,
         sensors=[latest_er_batch_sensor],

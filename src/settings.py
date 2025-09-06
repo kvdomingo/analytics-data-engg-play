@@ -2,7 +2,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Literal
 
-from pydantic import computed_field
+from pydantic import SecretStr, computed_field
 from pydantic_settings import BaseSettings
 
 
@@ -11,17 +11,19 @@ class Settings(BaseSettings):
     BASE_DIR: Path = Path(__file__).parent.parent
     DEFAULT_TZ: str = "Asia/Manila"
 
-    NASA_FIRMS_MAP_KEY: str
+    NASA_FIRMS_MAP_KEY: SecretStr
     NASA_FIRMS_BASE_URL: str = "https://firms.modaps.eosdis.nasa.gov"
 
     MINIO_ENDPOINT: str
     MINIO_REGION: str
-    MINIO_ACCESS_KEY: str
-    MINIO_SECRET_KEY: str
+    MINIO_ACCESS_KEY: SecretStr
+    MINIO_SECRET_KEY: SecretStr
     MINIO_BUCKET: str
 
-    GCS_BUCKET: str
-    GCS_APPLICATION_CREDENTIALS: str
+    GCS_BUCKET: SecretStr
+    GCS_APPLICATION_CREDENTIALS: SecretStr
+
+    RAPIDAPI_INSTAGRAM_API_KEY: SecretStr
 
     @computed_field
     @property
