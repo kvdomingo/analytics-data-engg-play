@@ -6,6 +6,7 @@ from dagster_deltalake import GcsConfig
 from dagster_duckdb import DuckDBResource
 from dagster_duckdb_polars import DuckDBPolarsIOManager
 
+from src.resources.instagram_api import InstagramApi
 from src.settings import settings
 
 from .gma_api import GmaApi
@@ -26,6 +27,7 @@ class Resource(Enum):
     NASA_FIRMS_API = "nasa_firms_api"
     GMA_DATA_API = "gma_data_api"
     GMA_METADATA_API = "gma_metadata_api"
+    INSTAGRAM_API = "instagram_api"
 
 
 _s3_resource = S3Resource(
@@ -45,6 +47,9 @@ RESOURCES = {
     ),
     Resource.GMA_METADATA_API.value: GmaApi(base_url="https://e25d-cf.gmanetwork.com"),
     Resource.GMA_DATA_API.value: GmaApi(base_url="https://e25vh-cf.gmanetwork.com"),
+    Resource.INSTAGRAM_API.value: InstagramApi(
+        api_key=settings.RAPIDAPI_INSTAGRAM_API_KEY.get_secret_value()
+    ),
     IOManager.DUCKDB.value: DuckDBPolarsIOManager(
         database=settings.DUCKDB_DATABASE,
         connection_config={
