@@ -70,3 +70,16 @@ def ph_mte25__dbt_assets(context: dg.AssetExecutionContext, dbt: DbtCliResource)
         .fetch_row_counts()
         .fetch_column_metadata()
     )
+
+
+@assets(
+    manifest=dbt_project.manifest_path,
+    select=f"fqn:{dbt_project.name}.gpu_tracker.*",
+)
+def gpu_tracker__dbt_assets(context: dg.AssetExecutionContext, dbt: DbtCliResource):
+    yield from (
+        dbt.cli(["build"], context=context)
+        .stream()
+        .fetch_row_counts()
+        .fetch_column_metadata()
+    )

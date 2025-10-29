@@ -1,7 +1,6 @@
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from zoneinfo import ZoneInfo
 
-from asyncpg.pgproto.pgproto import timedelta
 from dagster import (
     DailyPartitionsDefinition,
     DynamicPartitionsDefinition,

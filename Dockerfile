@@ -3,7 +3,7 @@ FROM python:3.12-bookworm
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
-ENV UV_VERSION=0.7.2
+ENV UV_VERSION=0.8.19
 ENV PATH="/home/dagster/.local/bin:/home/dagster/.cargo/bin:${PATH}"
 
 USER root

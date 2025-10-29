@@ -1,0 +1,45 @@
+version: 2
+
+models:
+  - name: gpu_tracker__dynaquest_bronze
+    config:
+      meta:
+        dagster:
+          group: gpu_tracker
+    columns:
+      - name: id
+        data_tests:
+          - not_null
+      - name: title
+        data_tests:
+          - not_null
+      - name: handle
+        data_tests:
+          - not_null
+      - name: body_html
+        data_tests:
+          - not_null
+      - name: published_at
+        data_tests:
+          - not_null
+      - name: created_at
+        data_tests:
+          - not_null
+      - name: updated_at
+        data_tests:
+          - not_null
+      - name: vendor
+        data_tests:
+          - not_null
+      - name: variants
+        data_tests:
+          - not_null
+      - name: images
+        data_tests:
+          - not_null
+      - name: options
+        data_tests:
+          - not_null
+      - name: retrieved_at
+        data_tests:
+          - not_null

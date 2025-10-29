@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: ae_de_play
+    tables:
+      - name: gpu_tracker__dynaquest_raw
+        meta:
+          dagster:
+            asset_key: [gpu_tracker__dynaquest_raw]

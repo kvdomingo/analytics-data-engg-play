@@ -5,6 +5,7 @@ import src.defs
 from src.assets import (
     dbt as dbt_assets,
     gigcal,
+    gpu_tracker,
 )
 from src.assets.cchain.factory import (
     CCHAIN_DATASETS,
@@ -33,6 +34,9 @@ defs = Definitions.merge(
             *load_assets_from_package_module(dbt_assets),
             *load_assets_from_package_module(
                 gigcal, group_name="gigcal", key_prefix="gigcal"
+            ),
+            *load_assets_from_package_module(
+                gpu_tracker, group_name="gpu_tracker", key_prefix="gpu_tracker"
             ),
         ],
         resources=RESOURCES,

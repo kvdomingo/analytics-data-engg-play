@@ -13,7 +13,7 @@ from dagster import (
     TableSchema,
 )
 from dagster_aws.s3 import S3Resource
-from duckdb.duckdb import DuckDBPyConnection
+from duckdb import DuckDBPyConnection
 from mypy_boto3_s3 import S3Client
 
 
