@@ -51,6 +51,7 @@ dependencies = [
     "curl-cffi>=0.13.0",
     "beautifulsoup4>=4.13.4",
     "lxml>=6.0.2",
+    "aiofiles>=25.1.0",
 ]
 
 [dependency-groups]

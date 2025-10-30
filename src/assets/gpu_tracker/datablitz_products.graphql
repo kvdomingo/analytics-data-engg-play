@@ -1,0 +1,60 @@
+query getProducts($first: Int, $after: String) {
+  products(first: $first, sortKey: BEST_SELLING, query: "tag:graphics-card", after: $after) {
+    edges {
+      node {
+        id
+        title
+        handle
+        description
+        publishedAt
+        createdAt
+        updatedAt
+        vendor
+        productType
+        tags
+        variants(first: $first) {
+          edges {
+            node {
+              id
+              sku
+              price {
+                amount
+                currencyCode
+              }
+              availableForSale
+              title
+              weight
+              weightUnit
+            }
+          }
+        }
+        images(first: $first) {
+          edges {
+            node {
+              url
+              height
+              width
+            }
+          }
+        }
+        options(first: $first) {
+          name
+          optionValues {
+            name
+            swatch {
+              color
+            }
+          }
+        }
+      }
+    }
+    filters {
+      id
+      label
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}
