@@ -1,0 +1,23 @@
+version: 2
+
+models:
+  - name: gpu_tracker__products_silver
+    config:
+      meta:
+        dagster:
+          group: gpu_tracker
+    columns:
+      - name: id
+      - name: source_id
+      - name: domain_tld
+      - name: title
+      - name: description
+      - name: product_url
+      - name: source_created_at
+      - name: source_updated_at
+      - name: retrieved_at
+      - name: brand
+      - name: image_url
+      - name: price_min
+      - name: price_max
+      - name: variants

@@ -1,45 +1,60 @@
 version: 2
 
+x-model-config: &model-config
+  meta:
+    dagster:
+      group: gpu_tracker
+
+x-common-columns: &common-columns
+  - name: id
+    data_tests:
+      - not_null
+  - name: source_id
+    data_tests:
+      - not_null
+  - name: domain_tld
+    data_tests:
+      - not_null
+  - name: title
+    data_tests:
+      - not_null
+  - name: description
+    data_tests:
+      - not_null
+  - name: product_url
+    data_tests:
+      - not_null
+  - name: source_created_at
+    data_tests:
+      - not_null
+  - name: source_updated_at
+    data_tests:
+      - not_null
+  - name: retrieved_at
+    data_tests:
+      - not_null
+  - name: brand
+    data_tests:
+      - not_null
+  - name: image_url
+    data_tests:
+      - not_null
+  - name: price_min
+    data_tests:
+      - dbt_utils.accepted_range:
+          min_value: 0
+          inclusive: true
+  - name: price_max
+    data_tests:
+      - dbt_utils.expression_is_true:
+          expression: ">= price_min"
+  - name: variants
+
 models:
   - name: gpu_tracker__dynaquest_bronze
-    config:
-      meta:
-        dagster:
-          group: gpu_tracker
-    columns:
-      - name: id
-        data_tests:
-          - not_null
-      - name: title
-        data_tests:
-          - not_null
-      - name: handle
-        data_tests:
-          - not_null
-      - name: body_html
-        data_tests:
-          - not_null
-      - name: published_at
-        data_tests:
-          - not_null
-      - name: created_at
-        data_tests:
-          - not_null
-      - name: updated_at
-        data_tests:
-          - not_null
-      - name: vendor
-        data_tests:
-          - not_null
-      - name: variants
-        data_tests:
-          - not_null
-      - name: images
-        data_tests:
-          - not_null
-      - name: options
-        data_tests:
-          - not_null
-      - name: retrieved_at
-        data_tests:
-          - not_null
+    config: *model-config
+    columns: *common-columns
+
+  - name: gpu_tracker__datablitz_bronze
+    config: *model-config
+    columns: *common-columns
