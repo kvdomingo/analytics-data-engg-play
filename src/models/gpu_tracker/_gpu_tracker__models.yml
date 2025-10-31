@@ -1,3 +1,42 @@
 version: 2
 
-models: []
+models:
+  - name: gpu_tracker__products
+    config:
+      meta:
+        dagster:
+          group: gpu_tracker
+    columns:
+      - name: id
+        data_tests:
+          - unique
+      - name: source_id
+      - name: domain_tld
+      - name: title
+      - name: description
+      - name: product_url
+      - name: source_created_at
+      - name: source_updated_at
+      - name: retrieved_at
+      - name: brand
+      - name: image_url
+      - name: price_min
+      - name: price_max
+
+  - name: gpu_tracker__variants
+    config:
+      meta:
+        dagster:
+          group: gpu_tracker
+    columns:
+      - name: id
+        data_tests:
+          - unique
+      - name: source_id
+      - name: product_id
+      - name: domain_tld
+      - name: title
+      - name: is_available
+      - name: price
+      - name: weight
+      - name: retrieved_at

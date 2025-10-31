@@ -15,7 +15,8 @@ WITH t1 AS (
         ) AS price_min,
         list_max(
             list_transform(variants, v -> v.price::FLOAT)
-        ) AS price_max
+        ) AS price_max,
+        variants
     FROM {{ source('ae_de_play', 'gpu_tracker__dynaquest_raw') }}
 )
 SELECT

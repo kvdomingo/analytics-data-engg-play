@@ -5,10 +5,11 @@ x-model-config: &model-config
     dagster:
       group: gpu_tracker
 
-x-common-columns: &common-columns
+x-product-columns: &product-columns
   - name: id
     data_tests:
       - not_null
+      - unique
   - name: source_id
     data_tests:
       - not_null
@@ -49,12 +50,56 @@ x-common-columns: &common-columns
       - dbt_utils.expression_is_true:
           expression: ">= price_min"
   - name: variants
+    data_tests:
+      - not_null
+
+x-variant-columns: &variant-columns
+  - name: id
+    data_tests:
+      - not_null
+      - unique
+  - name: source_id
+    data_tests:
+      - not_null
+  - name: product_id
+    data_tests:
+      - not_null
+  - name: domain_tld
+    data_tests:
+      - not_null
+  - name: title
+    data_tests:
+      - not_null
+  - name: is_available
+    data_tests:
+      - not_null
+  - name: price
+    data_tests:
+      - dbt_utils.accepted_range:
+          min_value: 0
+          inclusive: true
+  - name: weight
+    data_tests:
+      - dbt_utils.accepted_range:
+          min_value: 0
+          inclusive: true
+  - name: retrieved_at
+    data_tests:
+      - not_null
 
 models:
-  - name: gpu_tracker__dynaquest_bronze
+  - name: gpu_tracker__dynaquest_products_bronze
     config: *model-config
-    columns: *common-columns
+    columns: *product-columns
 
-  - name: gpu_tracker__datablitz_bronze
+  - name: gpu_tracker__datablitz_products_bronze
     config: *model-config
-    columns: *common-columns
+    columns: *product-columns
+
+  - name: gpu_tracker__dynaquest_variants_bronze
+    config: *model-config
+    columns: *variant-columns
+
+  - name: gpu_tracker__datablitz_variants_bronze
+    config: *model-config
+    columns: *variant-columns

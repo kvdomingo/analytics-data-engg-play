@@ -8,6 +8,8 @@ models:
           group: gpu_tracker
     columns:
       - name: id
+        data_tests:
+          - unique
       - name: source_id
       - name: domain_tld
       - name: title
@@ -20,4 +22,21 @@ models:
       - name: image_url
       - name: price_min
       - name: price_max
-      - name: variants
+
+  - name: gpu_tracker__variants_silver
+    config:
+      meta:
+        dagster:
+          group: gpu_tracker
+    columns:
+      - name: id
+        data_tests:
+          - unique
+      - name: source_id
+      - name: product_id
+      - name: domain_tld
+      - name: title
+      - name: is_available
+      - name: price
+      - name: weight
+      - name: retrieved_at

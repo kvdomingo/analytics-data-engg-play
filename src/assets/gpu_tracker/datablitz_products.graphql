@@ -37,15 +37,7 @@ query getProducts($first: Int, $after: String) {
             }
           }
         }
-        options(first: $first) {
-          name
-          optionValues {
-            name
-            swatch {
-              color
-            }
-          }
-        }
+        options(first: $first) { name }
       }
     }
     filters {
