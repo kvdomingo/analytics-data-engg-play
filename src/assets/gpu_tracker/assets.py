@@ -7,6 +7,7 @@ import dagster as dg
 import polars as pl
 from aiofiles import open
 from curl_cffi import AsyncSession
+from dagster_duckdb import DuckDBResource
 
 from src.dbt_project import dbt_project
 from src.lib.gpu_tracker import crawl_shopify_products_json
@@ -106,3 +107,54 @@ async def gpu_tracker__datablitz_raw(context: dg.AssetExecutionContext):
     )
     context.add_output_metadata({"dagster/row_count": len(df)})
     return df
+
+
+@dg.asset(
+    group_name="gpu_tracker",
+    kinds={"duckdb", "postgres"},
+    deps=["gpu_tracker__products", "gpu_tracker__variants"],
+)
+async def gpu_tracker__postgres_copy(duckdb: DuckDBResource) -> None:
+    with duckdb.get_connection() as conn:
+        conn.install_extension("postgres")
+        conn.load_extension("postgres")
+
+        conn.execute(f"""
+        CREATE SECRET (
+            TYPE postgres,
+            HOST '{settings.GPU_TRACKER_POSTGRES_HOST}',
+            PORT '{settings.GPU_TRACKER_POSTGRES_PORT}',
+            DATABASE '{settings.GPU_TRACKER_POSTGRES_DATABASE}',
+            USER '{settings.GPU_TRACKER_POSTGRES_USERNAME.get_secret_value()}',
+            PASSWORD '{settings.GPU_TRACKER_POSTGRES_PASSWORD.get_secret_value()}'
+        );
+
+        ATTACH '' AS pg (TYPE postgres);
+        """)
+        conn.execute("""
+        BEGIN TRANSACTION;
+
+        DROP TABLE IF EXISTS pg.variants;
+        DROP TABLE IF EXISTS pg.products;
+
+        CREATE TABLE pg.public.products AS
+        SELECT * FROM ae_de_play.gpu_tracker__products;
+
+        CREATE TABLE pg.public.variants AS
+        SELECT * FROM ae_de_play.gpu_tracker__variants;
+
+        COMMIT;
+        """)
+        conn.execute("""
+        SELECT * FROM postgres_execute(
+            'pg',
+            '
+                ALTER TABLE products
+                ADD CONSTRAINT products_pk PRIMARY KEY (id);
+
+                ALTER TABLE variants
+                ADD CONSTRAINT variants_pk PRIMARY KEY (id),
+                ADD CONSTRAINT variants_product_id_fk FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE;
+            '
+        );
+        """)

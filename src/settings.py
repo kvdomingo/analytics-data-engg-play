@@ -2,7 +2,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Literal
 
-from pydantic import SecretStr, computed_field
+from pydantic import PostgresDsn, SecretStr, computed_field
 from pydantic_settings import BaseSettings
 
 
@@ -25,6 +25,12 @@ class Settings(BaseSettings):
 
     RAPIDAPI_INSTAGRAM_API_KEY: SecretStr
 
+    GPU_TRACKER_POSTGRES_DATABASE: str
+    GPU_TRACKER_POSTGRES_USERNAME: SecretStr
+    GPU_TRACKER_POSTGRES_PASSWORD: SecretStr
+    GPU_TRACKER_POSTGRES_HOST: str
+    GPU_TRACKER_POSTGRES_PORT: int
+
     @computed_field
     @property
     def IS_PRODUCTION(self) -> bool:
@@ -34,6 +40,20 @@ class Settings(BaseSettings):
     @property
     def DUCKDB_DATABASE(self) -> str:
         return str(self.BASE_DIR / "data/lake/db.duckdb")
+
+    @computed_field
+    @property
+    def GPU_TRACKER_POSTGRES_URL(self) -> str:
+        return str(
+            PostgresDsn.build(
+                scheme="postgresql+asyncpg",
+                username=self.GPU_TRACKER_POSTGRES_USERNAME.get_secret_value(),
+                password=self.GPU_TRACKER_POSTGRES_PASSWORD.get_secret_value(),
+                host=self.GPU_TRACKER_POSTGRES_HOST,
+                port=self.GPU_TRACKER_POSTGRES_PORT,
+                path=self.GPU_TRACKER_POSTGRES_DATABASE,
+            )
+        )
 
 
 @lru_cache

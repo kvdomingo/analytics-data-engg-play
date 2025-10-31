@@ -1,10 +1,9 @@
-from contextlib import contextmanager
+from contextlib import asynccontextmanager
 
 from dagster import ConfigurableResource
 from loguru import logger
-from sqlalchemy import create_engine
 from sqlalchemy.exc import DatabaseError
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
 from src.settings import settings
 
@@ -12,15 +11,15 @@ from src.settings import settings
 class PostgresResource(ConfigurableResource):
     connection_string: str
 
-    def session_maker(self):
-        engine = create_engine(
+    async def session_maker(self):
+        engine = create_async_engine(
             self.dsn,
             echo=not settings.IS_PRODUCTION,
         )
-        return sessionmaker(bind=engine)
+        return async_sessionmaker(bind=engine)
 
-    def get_db(self):
-        session = self.session_maker()
+    async def get_db(self):
+        session = await self.session_maker()
         db = session()
         try:
             yield db
@@ -28,11 +27,11 @@ class PostgresResource(ConfigurableResource):
             logger.exception(e)
             raise
         finally:
-            db.close()
+            await db.close()
 
-    @contextmanager
-    def get_db_context(self):
-        session = self.session_maker()
+    @asynccontextmanager
+    async def get_db_ctx(self):
+        session = await self.session_maker()
         db = session()
         try:
             yield db
@@ -40,4 +39,4 @@ class PostgresResource(ConfigurableResource):
             logger.exception(e)
             raise
         finally:
-            db.close()
+            await db.close()

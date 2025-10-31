@@ -7,6 +7,7 @@ from dagster_duckdb import DuckDBResource
 from dagster_duckdb_polars import DuckDBPolarsIOManager
 
 from src.resources.instagram_api import InstagramApi
+from src.resources.postgres import PostgresResource
 from src.settings import settings
 
 from .gma_api import GmaApi
@@ -28,6 +29,7 @@ class Resource(Enum):
     GMA_DATA_API = "gma_data_api"
     GMA_METADATA_API = "gma_metadata_api"
     INSTAGRAM_API = "instagram_api"
+    GPU_TRACKER_POSTGRES = "gpu_tracker_postgres"
 
 
 _s3_resource = S3Resource(
@@ -49,6 +51,9 @@ RESOURCES = {
     Resource.GMA_DATA_API.value: GmaApi(base_url="https://e25vh-cf.gmanetwork.com"),
     Resource.INSTAGRAM_API.value: InstagramApi(
         api_key=settings.RAPIDAPI_INSTAGRAM_API_KEY.get_secret_value()
+    ),
+    Resource.GPU_TRACKER_POSTGRES.value: PostgresResource(
+        connection_string=settings.GPU_TRACKER_POSTGRES_URL
     ),
     IOManager.DUCKDB.value: DuckDBPolarsIOManager(
         database=settings.DUCKDB_DATABASE,
