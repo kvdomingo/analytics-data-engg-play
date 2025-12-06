@@ -221,3 +221,7 @@ terraform.rc
 # End of https://www.toptal.com/developers/gitignore/api/terraform
 
 duck.db
+*.duckdb
+/data/*
+!/data/**/*.dvc
+/data
