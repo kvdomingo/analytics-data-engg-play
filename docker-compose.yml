@@ -2,10 +2,9 @@ name: ae-de-play
 
 volumes:
   db-data:
-  dagster-data:
+  dagster-home-data:
   venv-data:
   superset-home-data:
-  superset-db-data:
   superset-redis-data:
 
 networks:
@@ -18,7 +17,7 @@ networks:
 
 x-common-env: &common_env
   PYTHON_ENV: development
-  DAGSTER_HOME: /app
+  DAGSTER_HOME: /opt/dagster
   DBT_TARGET_PATH: /app/src/target
   NASA_FIRMS_MAP_KEY: ${NASA_FIRMS_MAP_KEY}
   MINIO_BUCKET: ${MINIO_BUCKET}
@@ -54,10 +53,11 @@ services:
       - .:/app
       - ${HOME}/.config/gcloud:/home/dagster/.config/gcloud:ro
       - venv-data:/app/.venv
+      - dagster-home-data:/opt/dagster
     ports:
       - "3030:3030"
     depends_on:
-      dagster-db:
+      db:
         condition: service_healthy
 
   jupyter:
@@ -78,33 +78,16 @@ services:
       dagster:
         condition: service_started
 
-  dagster-db:
-    image: bitnamilegacy/postgresql:16.4.0-debian-12-r8
+  db:
+    image: postgres:18
     restart: unless-stopped
     environment:
-      POSTGRESQL_USERNAME: postgres
-      POSTGRESQL_PASSWORD: postgres
-      POSTGRESQL_DATABASE: dagster
+      POSTGRES_PASSWORD: postgres
     volumes:
-      - dagster-data:/bitnami/postgresql
+      - db-data:/var/lib/postgresql
+      - ./initdb:/docker-entrypoint-initdb.d
     healthcheck:
-      test: [ "CMD", "pg_isready", "-U", "postgres", "-d", "dagster" ]
-      start_period: 5s
-      interval: 20s
-      retries: 3
-      timeout: 2s
-
-  superset-db:
-    image: bitnamilegacy/postgresql:16.4.0-debian-12-r8
-    restart: unless-stopped
-    environment:
-      POSTGRESQL_USERNAME: postgres
-      POSTGRESQL_PASSWORD: postgres
-      POSTGRESQL_DATABASE: superset
-    volumes:
-      - superset-db-data:/bitnami/postgresql
-    healthcheck:
-      test: [ "CMD", "pg_isready", "-U", "postgres", "-d", "superset" ]
+      test: [ "CMD", "pg_isready", "-U", "postgres", "-d", "postgres" ]
       start_period: 5s
       interval: 20s
       retries: 3
@@ -125,21 +108,8 @@ services:
     ports:
       - "8088:8088"
     depends_on:
-      superset-db:
+      db:
         condition: service_healthy
-
-  db:
-    build:
-      context: .
-      dockerfile: pg.Dockerfile
-    image: kvdomingo/ae-de-play-postgresql
-    restart: unless-stopped
-    environment:
-      POSTGRES_PASSWORD: password
-    volumes:
-      - db-data:/var/lib/postgresql/data
-    ports:
-      - '5432:5432'
 
   evidence:
     image: node:lts-bookworm

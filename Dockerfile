@@ -26,11 +26,13 @@ RUN chmod +x /tmp/nodesource_setup.sh && \
     useradd --uid 1000 --shell /bin/bash --user-group --create-home dagster && \
     mkdir -p /app/.venv && \
     mkdir -p /home/dagster/.tmp && \
+    mkdir -p /opt/dagster && \
     chown -R 1000:1000 /app
 
 ADD https://astral.sh/uv/${UV_VERSION}/install.sh /home/dagster/.tmp/install-uv.sh
 
 RUN chown -R 1000:1000 /home/dagster && \
+    chown -R 1000:1000 /opt/dagster && \
     chmod +x /home/dagster/.tmp/install-uv.sh
 
 WORKDIR /app

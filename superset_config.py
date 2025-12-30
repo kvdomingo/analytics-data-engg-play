@@ -1,4 +1,4 @@
-SQLALCHEMY_DATABASE_URI = "postgresql://postgres:postgres@superset-db:5432/superset"
+SQLALCHEMY_DATABASE_URI = "postgresql://superset:superset@db:5432/superset"
 
 ROW_LIMIT = 5000
 

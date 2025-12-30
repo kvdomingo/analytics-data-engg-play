@@ -1,4 +1,4 @@
-FROM ghcr.io/kvdomingo/postgresql-pig:17
+FROM ghcr.io/kvdomingo/postgresql-pig:18
 
 USER root
 
