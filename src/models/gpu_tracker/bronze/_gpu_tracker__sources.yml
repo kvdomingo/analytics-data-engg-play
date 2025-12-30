@@ -11,3 +11,7 @@ sources:
         meta:
           dagster:
             asset_key: [gpu_tracker__datablitz_raw]
+      - name: gpu_tracker__easypc_raw
+        meta:
+          dagster:
+            asset_key: [gpu_tracker__easypc_raw]

@@ -96,10 +96,18 @@ models:
     config: *model-config
     columns: *product-columns
 
+  - name: gpu_tracker__easypc_products_bronze
+    config: *model-config
+    columns: *product-columns
+
   - name: gpu_tracker__dynaquest_variants_bronze
     config: *model-config
     columns: *variant-columns
 
   - name: gpu_tracker__datablitz_variants_bronze
+    config: *model-config
+    columns: *variant-columns
+
+  - name: gpu_tracker__easypc_variants_bronze
     config: *model-config
     columns: *variant-columns
